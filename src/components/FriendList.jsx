@@ -1,6 +1,6 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import Friend from "./Friend";
 import ComponentWrapper from "./utilities/ComponentWrapper";
+import Friend from "./Friend";
 
 const FriendList = () => {
   const { palette } = useTheme();
