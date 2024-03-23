@@ -1,5 +1,7 @@
 import { Box } from "@mui/material";
 
+import PropTypes from "prop-types";
+
 const UserImg = ({ image, size = "60px" }) => {
   return (
     <Box width={size} height={size}>
@@ -8,10 +10,15 @@ const UserImg = ({ image, size = "60px" }) => {
         width={size}
         height={size}
         alt="user"
-        src={`http://localhost:3001/assets/${image}`}
+        src={image}
       />
     </Box>
   );
+};
+
+UserImg.propTypes = {
+  image: PropTypes.string.isRequired,
+  size: PropTypes.string,
 };
 
 export default UserImg;
