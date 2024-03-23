@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material";
+import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
 import { useMemo } from "react";
 import HomePage from "./pages/homePage/HomePage";
@@ -13,11 +13,13 @@ import { Provider, useSelector } from "react-redux";
 import store from "./redux/store";
 
 function App() {
-  
+  const mode = useSelector((state)=> state.mode)
+  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
   return (
     <div className="app">
       <Provider store={store}>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <BrowserRouter>
             <Navbar></Navbar>
             <Routes>
