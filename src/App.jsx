@@ -8,30 +8,27 @@ import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
 import Register from "./pages/regPage/Register";
 import ErrorPage from "./pages/errorPage/errorPage";
-import Navbar from "./components/navbar/navbar";
-import { Provider, useSelector } from "react-redux";
-import store from "./redux/store";
+import { useSelector } from "react-redux";
 
 function App() {
-  const mode = useSelector((state)=> state.mode)
-  const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+  const Mode = useSelector((state) => state.auth.mode);
+  const theme = useMemo(() => {
+    return createTheme(themeSettings(Mode)
+  )}, [Mode]);
   return (
     <div className="app">
-      <Provider store={store}>
+      <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <BrowserRouter>
-            <Navbar></Navbar>
-            <Routes>
-              <Route path="/" element={<HomePage />}></Route>
-              <Route path="/profile/:userId" element={<ProfilePage />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/reg" element={<Register />}></Route>
-              <Route path="*" element={<ErrorPage />}></Route>
-            </Routes>
-          </BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Login />}></Route>
+            <Route path="/home" element={<HomePage />}></Route>
+            <Route path="/profile/:userId" element={<ProfilePage />}></Route>
+            <Route path="/reg" element={<Register />}></Route>
+            <Route path="*" element={<ErrorPage />}></Route>
+          </Routes>
         </ThemeProvider>
-      </Provider>
+      </BrowserRouter>
     </div>
   );
 }
