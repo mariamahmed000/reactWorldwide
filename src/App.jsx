@@ -8,7 +8,6 @@ import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
 import Register from "./pages/regPage/Register";
 import ErrorPage from "./pages/errorPage/errorPage";
-import Navbar from "./components/navbar/navbar";
 import { useSelector } from "react-redux";
 
 function App() {
@@ -21,7 +20,6 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar></Navbar>
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
