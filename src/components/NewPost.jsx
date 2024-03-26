@@ -14,6 +14,8 @@ import {
   ImageOutlined,
   MicOutlined,
   MoreHorizOutlined,
+  SendAndArchiveOutlined,
+  SendOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -38,8 +40,10 @@ const NewPost = ({ picturePath }) => {
   const medium = palette.neutral.medium;
   return (
     <ComponentWrapper>
-      <FlexBetween gap="1.5rem">
-        <UserImg image={picturePath} />
+      <Box display="flex" alignItems="center">
+        <Box sx={{ marginRight: -8.2, marginLeft: 1, zIndex: 1 }}>
+          <UserImg image={picturePath} />
+        </Box>
         <InputBase
           placeholder="What's on your mind..."
           //   onChange={(e) => setPost(e.target.value)}
@@ -48,10 +52,62 @@ const NewPost = ({ picturePath }) => {
             width: "100%",
             backgroundColor: palette.neutral.light,
             borderRadius: "2rem",
-            padding: "1rem 2rem",
+            padding: "1.5rem 0",
+            paddingLeft: "5rem",
+            paddingRight: `${isNonMobileScreens ? "2.5rem" : "5.6rem"}`,
           }}
         />
-      </FlexBetween>
+        {!isNonMobileScreens && (
+          <FlexBetween marginLeft={"-95px"} width="5px">
+            <Box
+              sx={{
+                // marginLeft: -13,
+                zIndex: 1,
+              }}
+              onClick={() => setIsImage(!isImage)}
+            >
+              <ImageOutlined
+                sx={{
+                  "&:hover": { cursor: "pointer", color: medium },
+                  color: palette.primary.main,
+                  fontSize: 30,
+                }}
+              />
+            </Box>
+            <Divider
+              orientation="vertical"
+              sx={{
+                background: palette.background.alt,
+                zIndex: 1,
+                borderColor: palette.background.alt,
+                marginLeft: "10px",
+              }}
+              flexItem
+            />
+            <Button
+              disabled={!post}
+              //   onClick={handlePost}
+              sx={{
+                // color: palette.background.alt,
+                // color: palette.background.main,
+                // backgroundColor: palette.primary.main,
+                borderRadius: "1rem",
+                padding: 1,
+                // marginLeft: -1,
+                zIndex: 1,
+              }}
+            >
+              <SendOutlined
+                sx={{
+                  color: palette.primary.main,
+                  "&:hover": { cursor: "pointer", color: medium },
+                  fontSize: 30,
+                }}
+              />
+            </Button>
+          </FlexBetween>
+        )}
+      </Box>
       {isImage && (
         <Box
           border={`1px solid ${medium}`}
@@ -96,55 +152,35 @@ const NewPost = ({ picturePath }) => {
           </Dropzone>
         </Box>
       )}
+      {isNonMobileScreens && (
+        <>
+          <Divider sx={{ margin: "1.25rem 0" }} />
 
-      <Divider sx={{ margin: "1.25rem 0" }} />
-
-      <FlexBetween>
-        <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
-          <ImageOutlined sx={{ color: mediumMain }} />
-          <Typography
-            color={mediumMain}
-            sx={{ "&:hover": { cursor: "pointer", color: medium } }}
-          >
-            Image
-          </Typography>
-        </FlexBetween>
-
-        {isNonMobileScreens ? (
-          <>
-            <FlexBetween gap="0.25rem">
-              <GifBoxOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Clip</Typography>
+          <FlexBetween>
+            <FlexBetween gap="0.25rem" onClick={() => setIsImage(!isImage)}>
+              <ImageOutlined sx={{ color: mediumMain }} />
+              <Typography
+                color={mediumMain}
+                sx={{ "&:hover": { cursor: "pointer", color: medium } }}
+              >
+                Image
+              </Typography>
             </FlexBetween>
 
-            <FlexBetween gap="0.25rem">
-              <AttachFileOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Attachment</Typography>
-            </FlexBetween>
-
-            <FlexBetween gap="0.25rem">
-              <MicOutlined sx={{ color: mediumMain }} />
-              <Typography color={mediumMain}>Audio</Typography>
-            </FlexBetween>
-          </>
-        ) : (
-          <FlexBetween gap="0.25rem">
-            <MoreHorizOutlined sx={{ color: mediumMain }} />
+            <Button
+              disabled={!post}
+              //   onClick={handlePost}
+              sx={{
+                color: palette.background.alt,
+                backgroundColor: palette.primary.main,
+                borderRadius: "3rem",
+              }}
+            >
+              POST
+            </Button>
           </FlexBetween>
-        )}
-
-        <Button
-          disabled={!post}
-          //   onClick={handlePost}
-          sx={{
-            color: palette.background.alt,
-            backgroundColor: palette.primary.main,
-            borderRadius: "3rem",
-          }}
-        >
-          POST
-        </Button>
-      </FlexBetween>
+        </>
+      )}
     </ComponentWrapper>
   );
 };
