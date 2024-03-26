@@ -10,7 +10,9 @@ import {
 // import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
-// import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
@@ -50,7 +52,7 @@ const Form = () => {
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
   //   const dispatch = useDispatch();
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
@@ -94,7 +96,7 @@ const Form = () => {
     //           token: loggedIn.token,
     //         })
     //       );
-    //       navigate("/home");
+    //       navigate("/");
     //     }
   };
 
@@ -209,7 +211,6 @@ const Form = () => {
                 </Box> */}
               </>
             )}
-
             <TextField
               label="Email"
               onBlur={handleBlur}
@@ -232,6 +233,7 @@ const Form = () => {
               sx={{ gridColumn: "span 4" }}
             />
           </Box>
+          {/* login with google */}
 
           {/* BUTTONS */}
           <Box>
@@ -251,6 +253,28 @@ const Form = () => {
             >
               {isLogin ? "LOGIN" : "REGISTER"}
             </Button>
+            {isLogin && (
+              <Box
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  margin: "2rem ",
+                }}
+              >
+                <GoogleLogin
+                  onSuccess={(credentialResponse) => {
+                    const decoded = jwtDecode(credentialResponse?.credential);
+                    localStorage.setItem("user", JSON.stringify(decoded));
+                    navigate("/");
+                    console.log(decoded);
+                  }}
+                  onError={() => {
+                    console.log("Login Failed");
+                  }}
+                />
+              </Box>
+            )}
             <Typography
               onClick={() => {
                 setPageType(isLogin ? "register" : "login");
