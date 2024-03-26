@@ -13,7 +13,8 @@ import * as yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
 // import FlexBetween from "../../components/FlexBetween";
@@ -25,7 +26,7 @@ const registerSchema = yup.object().shape({
   password: yup.string().required("required"),
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
-  picture: yup.string().required("required"),
+  userImage: yup.string(),
 });
 
 const loginSchema = yup.object().shape({
@@ -40,7 +41,7 @@ const initialValuesRegister = {
   password: "",
   location: "",
   occupation: "",
-  picture: "",
+  userImage: "",
 };
 
 const initialValuesLogin = {
@@ -49,9 +50,11 @@ const initialValuesLogin = {
 };
 
 const Form = () => {
+  const { setLogin } = useSelector((state) => state.auth);
+
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
-  //   const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
@@ -59,45 +62,68 @@ const Form = () => {
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
-    const formData = new FormData();
-    for (let value in values) {
-      formData.append(value, values[value]);
-    }
-    formData.append("picturePath", values.picture.name);
+    // const formData = new FormData();
+    // for (let value in values) {
+    //   formData.append(value, values[value]);
+    // }
+    // formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
-      "http://localhost:3001/auth/register",
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const savedUserResponse = await fetch("http://localhost:7005/register", {
+      method: "POST",
+      // body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
 
     if (savedUser) {
       setPageType("login");
+      navigate("/home");
     }
   };
 
-  // eslint-disable-next-line no-unused-vars
+  // send google auth
+  const sendGoogleAuth = async (values) => {
+    const data = {
+      firstName: values.given_name,
+      lastName: values.family_name,
+      email: values.email,
+      password: values.jti,
+      userImage: values.picture,
+      location: "",
+      isGoogle: true,
+    };
+    const savedUser = await fetch("http://localhost:7005/register", {
+      method: "POST",
+      // body: formData,
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (savedUser) {
+      setPageType("login");
+      navigate("/home");
+    }
+  };
+
   const login = async (values, onSubmitProps) => {
-    // const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
-    //   method: "POST",
-    //   headers: { "Content-Type": "application/json" },
-    //   body: JSON.stringify(values),
-    // });
-    //     const loggedIn = await loggedInResponse.json();
-    //     onSubmitProps.resetForm();
-    //     if (loggedIn) {
-    //       dispatch(
-    //         setLogin({
-    //           user: loggedIn.user,
-    //           token: loggedIn.token,
-    //         })
-    //       );
-    //       navigate("/");
-    //     }
+    const loggedInResponse = await fetch("http://localhost:7005/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values),
+    });
+    const loggedIn = await loggedInResponse.json();
+    onSubmitProps.resetForm();
+    console.log(loggedIn);
+    // if (loggedIn) {
+    //   dispatch(
+    //     setLogin({
+    //       user: loggedIn.user,
+    //       token: loggedIn.token,
+    //     })
+    //   );
+    // }
+    navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -176,39 +202,18 @@ const Form = () => {
                   helperText={touched.occupation && errors.occupation}
                   sx={{ gridColumn: "span 4" }}
                 />
-                {/* <Box
-                  gridColumn="span 4"
-                  border={`1px solid ${palette.neutral.medium}`}
-                  borderRadius="5px"
-                  p="1rem"
-                >
-                  <Dropzone
-                    acceptedFiles=".jpg,.jpeg,.png"
-                    multiple={false}
-                    onDrop={(acceptedFiles) =>
-                      setFieldValue("picture", acceptedFiles[0])
-                    }
-                  >
-                    {({ getRootProps, getInputProps }) => (
-                      <Box
-                        {...getRootProps()}
-                        border={`2px dashed ${palette.primary.main}`}
-                        p="1rem"
-                        sx={{ "&:hover": { cursor: "pointer" } }}
-                      >
-                        <input {...getInputProps()} />
-                        {!values.picture ? (
-                          <p>Add Picture Here</p>
-                        ) : (
-                          <FlexBetween>
-                            <Typography>{values.picture.name}</Typography>
-                            <EditOutlinedIcon />
-                          </FlexBetween>
-                        )}
-                      </Box>
-                    )}
-                  </Dropzone>
-                </Box> */}
+                <TextField
+                  label="userImage"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.userImage}
+                  name="userImage"
+                  error={
+                    Boolean(touched.userImage) && Boolean(errors.userImage)
+                  }
+                  helperText={touched.userImage && errors.userImage}
+                  sx={{ gridColumn: "span 4" }}
+                />
               </>
             )}
             <TextField
@@ -265,7 +270,11 @@ const Form = () => {
                 <GoogleLogin
                   onSuccess={(credentialResponse) => {
                     const decoded = jwtDecode(credentialResponse?.credential);
+
                     localStorage.setItem("user", JSON.stringify(decoded));
+                    // add auth
+
+                    sendGoogleAuth(decoded);
                     navigate("/");
                     console.log(decoded);
                   }}

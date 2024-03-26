@@ -22,7 +22,7 @@ const Login = () => {
               alt="login"
               width="150px"
               height="auto"
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/home")}
               style={{ cursor: "pointer" }}
             />
           </Typography>
