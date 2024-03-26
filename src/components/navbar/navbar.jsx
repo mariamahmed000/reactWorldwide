@@ -24,8 +24,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../utilities/FlexBetween";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { setLogout, setMode } from "../../redux/authSlice";
+import {getAllUsers} from '../../redux/users'
+import SearchResultList from "../search/searchResultList";
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
@@ -45,6 +47,30 @@ const Navbar = () => {
   //need to fetch from the database
   const fullName = `${user?.firstName} ${user?.lastName}` && "Mazen El-Rashidy";
 
+  const [search,setSearch]=useState('');
+  const [result,setResult]=useState('');
+  const usersArr=useSelector((state=>state.users.users.data))
+  console.log(usersArr);
+
+  useEffect(()=>{
+    dispatch(getAllUsers());
+ },[dispatch])
+
+ const getUser=(value)=>{
+   const result=usersArr.filter((user)=>{
+      return value && user && user.firstName && user.firstName.toLowerCase().includes(value)
+   })
+   console.log("result",result);
+   setResult(result);
+ } 
+
+ const handleChanges=(value)=>{
+
+  setSearch(value);
+  getUser(value)
+
+ }
+  console.log(search);
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -64,18 +90,20 @@ const Navbar = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
-            backgroundColor={neutralLight}
-            borderRadius="9px"
-            gap="3rem"
-            padding="0.1rem 1.5rem"
+          backgroundColor={neutralLight}
+          borderRadius="9px"
+          gap="3rem"
+          padding="0.1rem 1.5rem"
+          flex-direction= "column"
           >
-            <InputBase placeholder="Search...">
+            <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
               <IconButton>
                 <Search />
               </IconButton>
             </InputBase>
           </FlexBetween>
         )}
+        {/* <SearchResultList result={result}/> */}
 
         {/* DESKTOP NAV */}
       </FlexBetween>
