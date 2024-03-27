@@ -34,7 +34,8 @@ const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
+  const userData = useSelector((state) => state.auth.user);
+  console.log(userData)
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -46,34 +47,14 @@ const Navbar = () => {
 
 
   //need to fetch from the database
-  const fullName = `${user?.firstName} ${user?.lastName}` && "Mazen El-Rashidy";
+  const fullName = `${userData?.firstName} ${userData?.lastName}`;
 
-//   const [search,setSearch]=useState('');
-//   const [result,setResult]=useState([]);
-//   const usersArr=useSelector((state=>state.users.users.data))
-//   console.log(usersArr);
 
-//   useEffect(()=>{
-//     dispatch(getAllUsers());
-//  },[dispatch])
-
-//  const getUser=(value)=>{
-//    const results=usersArr.filter((user)=>{
-//       return value && user && user.firstName && user.firstName.toLowerCase().includes(value)
-//    })
-//   //  console.log("result",result);
-//    setResult(results);
-//   } 
-//   console.log("result",result);
-
-//  const handleChanges=(value)=>{
-
-//   setSearch(value);
-//   getUser(value)
-
-//  }
-
-//   console.log("search",search);
+ const userLogout = () => {
+  dispatch(setLogout());
+  navigate("/")
+ }
+  console.log(search);
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -94,6 +75,7 @@ const Navbar = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
+
           backgroundColor={neutralLight}
           borderRadius="9px"
           gap="3rem"
@@ -101,6 +83,7 @@ const Navbar = () => {
           flex-direction= "column"
           >
             {/* <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
+
               <IconButton>
                 <Search />
               </IconButton>
@@ -129,7 +112,7 @@ const Navbar = () => {
               value={fullName}
               sx={{
                 backgroundColor: neutralLight,
-                width: "150px",
+                width: "min-content",
                 borderRadius: "0.25rem",
                 p: "0.25rem 1rem",
                 "& .MuiSvgIcon-root": {
@@ -145,7 +128,7 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => userLogout()}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -203,7 +186,7 @@ const Navbar = () => {
                 value={fullName}
                 sx={{
                   backgroundColor: neutralLight,
-                  width: "150px",
+                  width: "min-content",
                   borderRadius: "0.25rem",
                   p: "0.25rem 1rem",
                   "& .MuiSvgIcon-root": {
@@ -219,9 +202,7 @@ const Navbar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
-                  Log Out
-                </MenuItem>
+                <MenuItem onClick={() => userLogout()}>Log Out</MenuItem>
               </Select>
             </FormControl>
           </FlexBetween>

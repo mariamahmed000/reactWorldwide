@@ -14,6 +14,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { setLogin } from "../../redux/authSlice";
 
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
@@ -50,7 +51,7 @@ const initialValuesLogin = {
 };
 
 const Form = () => {
-  const { setLogin } = useSelector((state) => state.auth);
+  // const { setLogin } = useSelector((state) => state.auth);
 
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
@@ -113,8 +114,9 @@ const Form = () => {
       body: JSON.stringify(values),
     });
     const loggedIn = await loggedInResponse.json();
+    dispatch(setLogin(loggedIn));
     onSubmitProps.resetForm();
-    console.log(loggedIn);
+    // console.log(loggedIn);
     // if (loggedIn) {
     //   dispatch(
     //     setLogin({
@@ -273,7 +275,7 @@ const Form = () => {
 
                     localStorage.setItem("user", JSON.stringify(decoded));
                     // add auth
-
+                    
                     sendGoogleAuth(decoded);
                     navigate("/");
                     console.log(decoded);

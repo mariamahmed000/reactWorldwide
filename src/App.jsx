@@ -28,8 +28,8 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-
-          {!isHome && <Navbar></Navbar>}
+          <Navbar/>
+          {/* {!isHome && <Navbar></Navbar>} */}
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
