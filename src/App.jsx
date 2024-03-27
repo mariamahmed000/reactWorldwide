@@ -11,26 +11,17 @@ import ErrorPage from "./pages/errorPage/errorPage";
 import { useSelector } from "react-redux";
 import Navbar from "./components/navbar/navbar";
 import { useEffect } from "react";
-
+// import {useHistory } from "react-router"
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
+
   const urlString = useSelector((state) => state.auth.urlString);
-
-  // const [isHome, setHome] = useState(false);
-  // useEffect(() => {
-  //   // console.log("hi ana mw", location.pathname)
-  //   if (urlString !== "/") {
-  //     setHome(true);
-  //   } else {
-  //     setHome(false);
-
-  //   }
-  // }, [urlString]);
 
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));
   }, [Mode]);
 
+  console.log("location",location.pathname);
   return (
     <div className="app">
       <BrowserRouter>
