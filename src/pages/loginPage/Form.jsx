@@ -13,8 +13,8 @@ import * as yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { setLogin } from "../../redux/authSlice";
+import { useDispatch } from "react-redux";
+import { setLogin, setUrl } from "../../redux/authSlice";
 
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
@@ -125,6 +125,7 @@ const Form = () => {
     //     })
     //   );
     // }
+    dispatch(setUrl("/home"))
     navigate("/home");
   };
 

@@ -25,7 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../utilities/FlexBetween";
 import { useState ,useEffect} from "react";
-import { setLogout, setMode } from "../../redux/authSlice";
+import { setLogout, setMode, setUrl } from "../../redux/authSlice";
 import {getAllUsers} from '../../redux/users'
 import SearchResultList from "../search/searchResultList";
 
@@ -76,6 +76,7 @@ const Navbar = () => {
 
  const userLogout = () => {
   dispatch(setLogout());
+  dispatch(setUrl("/"));
   navigate("/")
  }
   console.log(search);

@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import HomePage from "./pages/homePage/HomePage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
@@ -14,19 +14,30 @@ import { useEffect } from "react";
 
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
+  const urlString = useSelector((state) => state.auth.urlString);
+
+  // const [isHome, setHome] = useState(false);
+  // useEffect(() => {
+  //   // console.log("hi ana mw", location.pathname)
+  //   if (urlString !== "/") {
+  //     setHome(true);
+  //   } else {
+  //     setHome(false);
+
+  //   }
+  // }, [urlString]);
 
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));
   }, [Mode]);
-  const isHome = location.pathname === "/";
 
   return (
     <div className="app">
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Navbar/>
-          {/* {!isHome && <Navbar></Navbar>} */}
+          {/* <Navbar/> */}
+          { (urlString !== "/")  && <Navbar></Navbar>}
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
