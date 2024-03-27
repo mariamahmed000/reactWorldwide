@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { persistReducer } from "redux-persist";
+import persistConfig from "./reduxPersist";
+
 const initialState = {
   mode: "light",
-  user: null,
+  user: {},
   token: null,
   posts: [],
 };
@@ -12,11 +15,12 @@ export const authSlice = createSlice({
   reducers: {
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
-      console.log("hi", state.mode)
     },
     //could make the setLogin contain prepare function and the lgoin function to prepare the action to have to parameters passed, however we will just pass the parameters inside an object as one parameter
     setLogin: (state, action) => {
-      state.user = action.payload.user;
+      
+      state.user = action.payload.data;
+      // console.log(state.user);
       state.token = action.payload.token;
     },
     setLogout: (state) => {
@@ -43,5 +47,8 @@ export const authSlice = createSlice({
   },
 });
 
-export const {setMode, setLogin, setLogout, setFriends, setPosts, setPost} = authSlice.actions;
-export default authSlice.reducer;
+const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
+
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
+  authSlice.actions;
+export default persistedReducer; // Export the persisted reducer
