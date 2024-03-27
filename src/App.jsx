@@ -11,15 +11,18 @@ import ErrorPage from "./pages/errorPage/errorPage";
 import { useSelector } from "react-redux";
 import Navbar from "./components/navbar/navbar";
 import { useEffect } from "react";
-
+// import {useHistory } from "react-router"
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
-
+  // let history = useHistory();
+  
+  console.log("history",history);
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));
   }, [Mode]);
   const isHome = location.pathname === "/";
 
+  console.log("location",location.pathname);
   return (
     <div className="app">
       <BrowserRouter>
