@@ -1,18 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { persistReducer } from "redux-persist";
-import persistConfig from "./reduxPersist";
+
 
 const initialState = {
   mode: "light",
   user: {},
   token: null,
   posts: [],
+  urlString: "/"
 };
 
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
+    setUrl: (state, action) => {
+      state.urlString = action.payload
+    },
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
@@ -47,8 +50,8 @@ export const authSlice = createSlice({
   },
 });
 
-const persistedReducer = persistReducer(persistConfig, authSlice.reducer);
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
+export default authSlice.reducer;
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, setUrl } =
   authSlice.actions;
-export default persistedReducer; // Export the persisted reducer
+
