@@ -29,6 +29,7 @@ import { setLogout, setMode } from "../../redux/authSlice";
 import {getAllUsers} from '../../redux/users'
 import SearchResultList from "../search/searchResultList";
 
+
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
@@ -47,30 +48,33 @@ const Navbar = () => {
   //need to fetch from the database
   const fullName = `${user?.firstName} ${user?.lastName}` && "Mazen El-Rashidy";
 
-  const [search,setSearch]=useState('');
-  const [result,setResult]=useState('');
-  const usersArr=useSelector((state=>state.users.users.data))
-  console.log(usersArr);
+//   const [search,setSearch]=useState('');
+//   const [result,setResult]=useState([]);
+//   const usersArr=useSelector((state=>state.users.users.data))
+//   console.log(usersArr);
 
-  useEffect(()=>{
-    dispatch(getAllUsers());
- },[dispatch])
+//   useEffect(()=>{
+//     dispatch(getAllUsers());
+//  },[dispatch])
 
- const getUser=(value)=>{
-   const result=usersArr.filter((user)=>{
-      return value && user && user.firstName && user.firstName.toLowerCase().includes(value)
-   })
-   console.log("result",result);
-   setResult(result);
- } 
+//  const getUser=(value)=>{
+//    const results=usersArr.filter((user)=>{
+//       return value && user && user.firstName && user.firstName.toLowerCase().includes(value)
+//    })
+//   //  console.log("result",result);
+//    setResult(results);
+//   } 
+//   console.log("result",result);
 
- const handleChanges=(value)=>{
+//  const handleChanges=(value)=>{
 
-  setSearch(value);
-  getUser(value)
+//   setSearch(value);
+//   getUser(value)
 
- }
-  console.log(search);
+//  }
+
+//   console.log("search",search);
+
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -93,17 +97,18 @@ const Navbar = () => {
           backgroundColor={neutralLight}
           borderRadius="9px"
           gap="3rem"
-          padding="0.1rem 1.5rem"
+          // padding="0.1rem 1.5rem"
           flex-direction= "column"
           >
-            <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
+            {/* <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
               <IconButton>
                 <Search />
               </IconButton>
-            </InputBase>
+            </InputBase> */}
+            {/* <SearchList></SearchList> */}
+            <SearchResultList />
           </FlexBetween>
         )}
-        {/* <SearchResultList result={result}/> */}
 
         {/* DESKTOP NAV */}
       </FlexBetween>
