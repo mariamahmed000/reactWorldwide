@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
-import { useMemo, useState } from "react";
+import { useMemo} from "react";
 import HomePage from "./pages/homePage/HomePage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
@@ -12,19 +12,17 @@ import Navbar from "./components/navbar/navbar";
 
 function ConditionalNavbar() {
   const location = useLocation();
-  const alllowPaths = ["/home", "/profile/:userId"];
-  const shouldRenderNavbar = alllowPaths.some((path) =>
-    location.pathname.includes(path)
-  );
-  return shouldRenderNavbar ? <Navbar /> : null;
+  if(location.pathname !== "/"){
+    return <Navbar/>
+  } else {
+    return null
+  }
+  
 }
 
-// import { useEffect } from "react";
-// import {useHistory } from "react-router"
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
-
-  // const urlString = useSelector((state) => state.auth.urlString);
+  
 
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));
@@ -37,8 +35,6 @@ function App() {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <ConditionalNavbar />
-          {/* <Navbar/> */}
-          {/* { (urlString !== "/")  && <Navbar></Navbar>} */}
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
