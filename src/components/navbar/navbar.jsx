@@ -24,18 +24,17 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../utilities/FlexBetween";
-import { useState ,useEffect} from "react";
+import { useState, useEffect } from "react";
 import { setLogout, setMode, setUrl } from "../../redux/authSlice";
-import {getAllUsers} from '../../redux/users'
+import { getAllUsers } from "../../redux/users";
 import SearchResultList from "../search/searchResultList";
-
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.user);
-  console.log(userData)
+  console.log(userData);
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -45,17 +44,15 @@ const Navbar = () => {
   const primaryLight = theme.palette.primary.light;
   const alt = theme.palette.background.alt;
 
-
   //need to fetch from the database
   const fullName = `${userData?.firstName} ${userData?.lastName}`;
 
-
- const userLogout = () => {
-  dispatch(setLogout());
-  dispatch(setUrl("/"));
-  navigate("/")
- }
-  console.log(search);
+  const userLogout = () => {
+    dispatch(setLogout());
+    dispatch(setUrl("/"));
+    navigate("/");
+  };
+  // console.log(search);
 
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
@@ -76,12 +73,11 @@ const Navbar = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
-
-          backgroundColor={neutralLight}
-          borderRadius="9px"
-          gap="3rem"
-          // padding="0.1rem 1.5rem"
-          flex-direction= "column"
+            backgroundColor={neutralLight}
+            borderRadius="9px"
+            gap="3rem"
+            // padding="0.1rem 1.5rem"
+            flex-direction="column"
           >
             {/* <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
 

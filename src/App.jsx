@@ -24,13 +24,13 @@ function ConditionalNavbar() {
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
 
-  const urlString = useSelector((state) => state.auth.urlString);
+  // const urlString = useSelector((state) => state.auth.urlString);
 
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));
   }, [Mode]);
 
-  console.log("location",location.pathname);
+  console.log("location", location.pathname);
   return (
     <div className="app">
       <BrowserRouter>
@@ -38,7 +38,7 @@ function App() {
           <CssBaseline />
           <ConditionalNavbar />
           {/* <Navbar/> */}
-//           { (urlString !== "/")  && <Navbar></Navbar>}
+          {/* { (urlString !== "/")  && <Navbar></Navbar>} */}
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>

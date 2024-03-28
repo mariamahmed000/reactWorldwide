@@ -16,8 +16,8 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 // import { useSelector, useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
-import { useDispatch } from "react-redux";
-import { setLogin, setUrl } from "../../redux/authSlice";
+// import { useDispatch } from "react-redux";
+// import { setLogin, setUrl } from "../../redux/authSlice";
 
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
@@ -128,31 +128,31 @@ const Form = () => {
       //     })
       //   );
       // }
-    dispatch(setUrl("/home"))
-      
+      // dispatch(setUrl("/home"))
+
       navigate("/home");
     } catch (error) {
       console.log(error);
     }
-//     const loggedInResponse = await fetch("http://localhost:7005/login", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify(values),
-//     });
-//     const loggedIn = await loggedInResponse.json();
-//     dispatch(setLogin(loggedIn));
-//     onSubmitProps.resetForm();
-//     // console.log(loggedIn);
-//     // if (loggedIn) {
-//     //   dispatch(
-//     //     setLogin({
-//     //       user: loggedIn.user,
-//     //       token: loggedIn.token,
-//     //     })
-//     //   );
-//     // }
-//     dispatch(setUrl("/home"))
-//     navigate("/home");
+    //     const loggedInResponse = await fetch("http://localhost:7005/login", {
+    //       method: "POST",
+    //       headers: { "Content-Type": "application/json" },
+    //       body: JSON.stringify(values),
+    //     });
+    //     const loggedIn = await loggedInResponse.json();
+    //     dispatch(setLogin(loggedIn));
+    //     onSubmitProps.resetForm();
+    //     // console.log(loggedIn);
+    //     // if (loggedIn) {
+    //     //   dispatch(
+    //     //     setLogin({
+    //     //       user: loggedIn.user,
+    //     //       token: loggedIn.token,
+    //     //     })
+    //     //   );
+    //     // }
+    //     dispatch(setUrl("/home"))
+    //     navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -321,7 +321,7 @@ const Form = () => {
 
                     localStorage.setItem("user", JSON.stringify(decoded));
                     // add auth
-                    
+
                     sendGoogleAuth(decoded);
                     navigate("/");
                     console.log(decoded);
