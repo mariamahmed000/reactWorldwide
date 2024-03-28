@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-const User = ({ userId, picturePath }) => {
+const User = ({ userId, picturePath,firstNames }) => {
   //   const [user, setUser] = useState(null);
   const { palette } = useTheme();
   //   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const User = ({ userId, picturePath }) => {
   //   }
 
   const user = {
-    firstName: "Gareth",
+    firstName: firstNames,
     lastName: "Bale",
     location: "El Marg",
     occupation: "Doctor",

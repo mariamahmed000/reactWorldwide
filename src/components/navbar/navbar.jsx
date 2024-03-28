@@ -25,15 +25,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "../utilities/FlexBetween";
 import { useState ,useEffect} from "react";
-import { setLogout, setMode } from "../../redux/authSlice";
+import { setLogout, setMode, setUrl } from "../../redux/authSlice";
 import {getAllUsers} from '../../redux/users'
 import SearchResultList from "../search/searchResultList";
+
 
 const Navbar = () => {
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
+  const userData = useSelector((state) => state.auth.user);
+  console.log(userData)
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
   const theme = useTheme();
@@ -45,32 +47,16 @@ const Navbar = () => {
 
 
   //need to fetch from the database
-  const fullName = `${user?.firstName} ${user?.lastName}` && "Mazen El-Rashidy";
+  const fullName = `${userData?.firstName} ${userData?.lastName}`;
 
-  const [search,setSearch]=useState('');
-  const [result,setResult]=useState('');
-  const usersArr=useSelector((state=>state.users.users.data))
-  console.log(usersArr);
 
-  useEffect(()=>{
-    dispatch(getAllUsers());
- },[dispatch])
-
- const getUser=(value)=>{
-   const result=usersArr.filter((user)=>{
-      return value && user && user.firstName && user.firstName.toLowerCase().includes(value)
-   })
-   console.log("result",result);
-   setResult(result);
- } 
-
- const handleChanges=(value)=>{
-
-  setSearch(value);
-  getUser(value)
-
+ const userLogout = () => {
+  dispatch(setLogout());
+  dispatch(setUrl("/"));
+  navigate("/")
  }
   console.log(search);
+
   return (
     <FlexBetween padding="1rem 6%" backgroundColor={alt}>
       <FlexBetween gap="1.75rem">
@@ -90,20 +76,23 @@ const Navbar = () => {
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
+
           backgroundColor={neutralLight}
           borderRadius="9px"
           gap="3rem"
-          padding="0.1rem 1.5rem"
+          // padding="0.1rem 1.5rem"
           flex-direction= "column"
           >
-            <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
+            {/* <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
+
               <IconButton>
                 <Search />
               </IconButton>
-            </InputBase>
+            </InputBase> */}
+            {/* <SearchList></SearchList> */}
+            <SearchResultList />
           </FlexBetween>
         )}
-        {/* <SearchResultList result={result}/> */}
 
         {/* DESKTOP NAV */}
       </FlexBetween>
@@ -124,7 +113,7 @@ const Navbar = () => {
               value={fullName}
               sx={{
                 backgroundColor: neutralLight,
-                width: "150px",
+                width: "min-content",
                 borderRadius: "0.25rem",
                 p: "0.25rem 1rem",
                 "& .MuiSvgIcon-root": {
@@ -140,7 +129,7 @@ const Navbar = () => {
               <MenuItem value={fullName}>
                 <Typography>{fullName}</Typography>
               </MenuItem>
-              <MenuItem onClick={() => dispatch(setLogout())}>Log Out</MenuItem>
+              <MenuItem onClick={() => userLogout()}>Log Out</MenuItem>
             </Select>
           </FormControl>
         </FlexBetween>
@@ -198,7 +187,7 @@ const Navbar = () => {
                 value={fullName}
                 sx={{
                   backgroundColor: neutralLight,
-                  width: "150px",
+                  width: "min-content",
                   borderRadius: "0.25rem",
                   p: "0.25rem 1rem",
                   "& .MuiSvgIcon-root": {
@@ -214,9 +203,7 @@ const Navbar = () => {
                 <MenuItem value={fullName}>
                   <Typography>{fullName}</Typography>
                 </MenuItem>
-                <MenuItem onClick={() => dispatch(setLogout())}>
-                  Log Out
-                </MenuItem>
+                <MenuItem onClick={() => userLogout()}>Log Out</MenuItem>
               </Select>
             </FormControl>
           </FlexBetween>
