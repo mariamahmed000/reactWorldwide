@@ -6,6 +6,7 @@ import {
   useMediaQuery,
   Typography,
   useTheme,
+  Alert,
 } from "@mui/material";
 // import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
@@ -13,6 +14,8 @@ import * as yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+// import { useSelector, useDispatch } from "react-redux";
+import Snackbar from "@mui/material/Snackbar";
 import { useDispatch } from "react-redux";
 import { setLogin, setUrl } from "../../redux/authSlice";
 
@@ -55,20 +58,14 @@ const Form = () => {
 
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
 
+  // register function
   const register = async (values, onSubmitProps) => {
-    // this allows us to send form info with image
-    // const formData = new FormData();
-    // for (let value in values) {
-    //   formData.append(value, values[value]);
-    // }
-    // formData.append("picturePath", values.picture.name);
-
     const savedUserResponse = await fetch("http://localhost:7005/register", {
       method: "POST",
       // body: formData,
@@ -84,7 +81,7 @@ const Form = () => {
     }
   };
 
-  // send google auth
+  // login with google
   const sendGoogleAuth = async (values) => {
     const data = {
       firstName: values.given_name,
@@ -107,31 +104,75 @@ const Form = () => {
     }
   };
 
+  //  login function
+
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:7005/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
-    const loggedIn = await loggedInResponse.json();
-    dispatch(setLogin(loggedIn));
-    onSubmitProps.resetForm();
-    // console.log(loggedIn);
-    // if (loggedIn) {
-    //   dispatch(
-    //     setLogin({
-    //       user: loggedIn.user,
-    //       token: loggedIn.token,
-    //     })
-    //   );
-    // }
+    try {
+      const loggedInResponse = await fetch("http://localhost:7005/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (!loggedInResponse.ok) {
+        handleOpen();
+        throw new Error("Failed to log in");
+      }
+      const loggedIn = await loggedInResponse.json();
+      onSubmitProps.resetForm();
+      console.log(loggedIn);
+      // if (loggedIn) {
+      //   dispatch(
+      //     setLogin({
+      //       user: loggedIn.user,
+      //       token: loggedIn.token,
+      //     })
+      //   );
+      // }
     dispatch(setUrl("/home"))
-    navigate("/home");
+      
+      navigate("/home");
+    } catch (error) {
+      console.log(error);
+    }
+//     const loggedInResponse = await fetch("http://localhost:7005/login", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify(values),
+//     });
+//     const loggedIn = await loggedInResponse.json();
+//     dispatch(setLogin(loggedIn));
+//     onSubmitProps.resetForm();
+//     // console.log(loggedIn);
+//     // if (loggedIn) {
+//     //   dispatch(
+//     //     setLogin({
+//     //       user: loggedIn.user,
+//     //       token: loggedIn.token,
+//     //     })
+//     //   );
+//     // }
+//     dispatch(setUrl("/home"))
+//     navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
     if (isLogin) await login(values, onSubmitProps);
     if (isRegister) await register(values, onSubmitProps);
+  };
+
+  // Error toast message
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
@@ -147,16 +188,20 @@ const Form = () => {
         handleBlur,
         handleChange,
         handleSubmit,
-        // setFieldValue,
         resetForm,
       }) => (
-        <form onSubmit={handleSubmit} className="all">
+        <form
+          onSubmit={handleSubmit}
+          className="all"
+          style={{ width: "60%", margin: "0 auto" }}
+        >
           <Box
             display="grid"
             gap="30px"
-            gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+            gridTemplateColumns="repeat(2, minmax(0, 1fr))"
             sx={{
-              "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+              margin: "auto",
+              "& > div": { gridColumn: isNonMobile ? undefined : "span 2" },
             }}
           >
             {isRegister && (
@@ -171,7 +216,7 @@ const Form = () => {
                     Boolean(touched.firstName) && Boolean(errors.firstName)
                   }
                   helperText={touched.firstName && errors.firstName}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: "span 1" }}
                 />
                 <TextField
                   label="Last Name"
@@ -181,7 +226,7 @@ const Form = () => {
                   name="lastName"
                   error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                   helperText={touched.lastName && errors.lastName}
-                  sx={{ gridColumn: "span 2" }}
+                  sx={{ gridColumn: "span 1" }}
                 />
                 <TextField
                   label="Location"
@@ -191,7 +236,7 @@ const Form = () => {
                   name="location"
                   error={Boolean(touched.location) && Boolean(errors.location)}
                   helperText={touched.location && errors.location}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
                   label="Occupation"
@@ -203,7 +248,7 @@ const Form = () => {
                     Boolean(touched.occupation) && Boolean(errors.occupation)
                   }
                   helperText={touched.occupation && errors.occupation}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
                 <TextField
                   label="userImage"
@@ -215,7 +260,7 @@ const Form = () => {
                     Boolean(touched.userImage) && Boolean(errors.userImage)
                   }
                   helperText={touched.userImage && errors.userImage}
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 2" }}
                 />
               </>
             )}
@@ -227,7 +272,7 @@ const Form = () => {
               name="email"
               error={Boolean(touched.email) && Boolean(errors.email)}
               helperText={touched.email && errors.email}
-              sx={{ gridColumn: "span 4" }}
+              sx={{ gridColumn: "span 2" }}
             />
             <TextField
               label="Password"
@@ -238,7 +283,7 @@ const Form = () => {
               name="password"
               error={Boolean(touched.password) && Boolean(errors.password)}
               helperText={touched.password && errors.password}
-              sx={{ gridColumn: "span 4" }}
+              sx={{ gridColumn: "span 2" }}
             />
           </Box>
           {/* login with google */}
@@ -306,6 +351,18 @@ const Form = () => {
                 : "Already have an account? Login here."}
             </Typography>
           </Box>
+          <div>
+            <Snackbar open={open} autoHideDuration={5000} onClose={handleClose}>
+              <Alert
+                onClose={handleClose}
+                severity="error"
+                variant="filled"
+                sx={{ width: "100%" }}
+              >
+                Invalid email or password!
+              </Alert>
+            </Snackbar>
+          </div>
         </form>
       )}
     </Formik>

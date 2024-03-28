@@ -6,11 +6,20 @@ import { useMemo, useState } from "react";
 import HomePage from "./pages/homePage/HomePage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
-import Register from "./pages/regPage/Register";
 import ErrorPage from "./pages/errorPage/errorPage";
 import { useSelector } from "react-redux";
 import Navbar from "./components/navbar/navbar";
-import { useEffect } from "react";
+
+function ConditionalNavbar() {
+  const location = useLocation();
+  const alllowPaths = ["/home", "/profile/:userId"];
+  const shouldRenderNavbar = alllowPaths.some((path) =>
+    location.pathname.includes(path)
+  );
+  return shouldRenderNavbar ? <Navbar /> : null;
+}
+
+// import { useEffect } from "react";
 // import {useHistory } from "react-router"
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
@@ -27,13 +36,13 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
+          <ConditionalNavbar />
           {/* <Navbar/> */}
-          { (urlString !== "/")  && <Navbar></Navbar>}
+//           { (urlString !== "/")  && <Navbar></Navbar>}
           <Routes>
             <Route path="/" element={<Login />}></Route>
             <Route path="/home" element={<HomePage />}></Route>
             <Route path="/profile/:userId" element={<ProfilePage />}></Route>
-            <Route path="/reg" element={<Register />}></Route>
             <Route path="*" element={<ErrorPage />}></Route>
           </Routes>
         </ThemeProvider>

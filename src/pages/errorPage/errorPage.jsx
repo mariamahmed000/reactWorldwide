@@ -1,10 +1,14 @@
+import { useTheme } from "@emotion/react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
 
 const ErrorPage = () => {
+  const theme = useTheme();
+
   const navigate = useNavigate();
   return (
-    <div>
+    <Box backgroundColor={theme.palette.background.default}>
       <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css"
@@ -28,7 +32,7 @@ const ErrorPage = () => {
 
                   <p>the page you are looking for not avaible!</p>
 
-                  <a className="link_404"  onClick={() => navigate("/")}>
+                  <a className="link_404" onClick={() => navigate("/home")}>
                     Go to Home
                   </a>
                 </div>
@@ -37,7 +41,7 @@ const ErrorPage = () => {
           </div>
         </div>
       </section>
-    </div>
+    </Box>
   );
 };
 

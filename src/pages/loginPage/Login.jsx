@@ -9,13 +9,11 @@ const Login = () => {
   const navigate = useNavigate();
   return (
     <div className="container">
-      <Box>
-        <Box
-          width="100%"
-          backgroundColor={theme.palette.background.alt}
-          p=".3rem 6%"
-          textAlign="center"
-        >
+      <Box
+        backgroundColor={theme.palette.background.default}
+        height="fit-content"
+      >
+        <Box width="100%" p=".3rem 6%" textAlign="center">
           <Typography fontWeight="bold" fontSize="32px" color="primary">
             <img
               src={logo}
@@ -32,7 +30,7 @@ const Login = () => {
           p=".2rem"
           m=".5rem auto"
           borderRadius="1.5rem"
-          backgroundColor={theme.palette.background.alt}
+          backgroundColor={theme.palette.background.default}
         >
           <Form />
         </Box>
