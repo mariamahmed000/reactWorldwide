@@ -14,10 +14,10 @@ import * as yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
 // import { useDispatch } from "react-redux";
-// import { setLogin, setUrl } from "../../redux/authSlice";
+import { setLogin, setUrl } from "../../redux/authSlice";
 
 // import { setLogin } from "state";
 // import Dropzone from "react-dropzone";
@@ -58,7 +58,7 @@ const Form = () => {
 
   const [pageType, setPageType] = useState("login");
   const { palette } = useTheme();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
@@ -118,6 +118,7 @@ const Form = () => {
         throw new Error("Failed to log in");
       }
       const loggedIn = await loggedInResponse.json();
+      dispatch(setLogin(loggedIn));
       onSubmitProps.resetForm();
       console.log(loggedIn);
       // if (loggedIn) {
