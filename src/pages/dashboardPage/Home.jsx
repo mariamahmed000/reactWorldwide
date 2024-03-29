@@ -11,8 +11,8 @@ import Chart2 from './Chart2';
 import Chart1 from './Chart1';
 
 const Home = () => {
-  const [setUsers]=useState([]);
-  const [setPosts]=useState([]);
+  const [users,setUsers]=useState([]);
+  const [posts,setPosts]=useState([]);
   const dispatch = useDispatch();
 
   const postsArr = useSelector((state=>state.posts.posts?.posts))
