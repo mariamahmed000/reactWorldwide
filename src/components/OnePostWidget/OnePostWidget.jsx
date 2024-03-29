@@ -47,6 +47,8 @@ const OnePostWidget = ({
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const [commentsDetails, setCommentsDetails] = useState([]);
+  const [comment, setComment] = useState(""); //new comment inside the text Field
+  const [addedComment, setaddedComment] = useState({});
 
   const { palette } = useTheme();
   const primary = palette.primary.main;
@@ -65,13 +67,13 @@ const OnePostWidget = ({
       );
       // console.log("hi:123", commentsArr.data.userComments);
       setCommentsDetails(commentsArr.data.userComments);
+      // console.log("comments", commentsDetails);
     };
     fetchComments();
-  }, [postId]);
+  }, [postId, addedComment]);
 
   const patchLike = async () => {
-    console.log(token);
-
+    // console.log(token);
     let updatedPost = await fetch(
       `http://localhost:7005/post/${postId}/like`,
 
@@ -85,8 +87,26 @@ const OnePostWidget = ({
     );
     // console.log(updatedPost);
     updatedPost = await updatedPost.json();
-    console.log(updatedPost);
+    // console.log(updatedPost);
     dispatch(setPost({ post: updatedPost.updatedPost }));
+  };
+
+  const addComment = async (addedComment) => {
+    const response = await fetch(
+      `http://localhost:7005/post/${postId}/comment`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userComment: addedComment }),
+      }
+    );
+    console.log("1111", addedComment);
+    setaddedComment({ userComment: comment });
+    console.log("Adding comment:", comment);
+    // setComment("");
   };
 
   return (
@@ -143,6 +163,12 @@ const OnePostWidget = ({
             <FlexBetween>
               {/* Add comment */}
               <Box
+                as="form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  addComment(comment);
+                  setComment("");
+                }}
                 sx={{
                   "& > :not(style)": { my: 1 },
                   width: "100%",
@@ -151,8 +177,10 @@ const OnePostWidget = ({
               >
                 <FlexBetween>
                   <TextField
-                    id={postId}
+                    id="comment"
                     label="Add comment"
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
                     sx={{ width: "100%" }}
                     InputProps={{
                       startAdornment: (
@@ -165,10 +193,8 @@ const OnePostWidget = ({
                     variant="standard"
                   />
                   <Button
-                    // disabled={!post}
-                    //   onClick={addComment}
+                    type="submit"
                     sx={{
-                      // borderRadius: "0.5rem",
                       padding: 0,
                       minWidth: "min-content",
                       zIndex: 1,

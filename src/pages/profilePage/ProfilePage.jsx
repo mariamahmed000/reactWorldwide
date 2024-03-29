@@ -6,12 +6,15 @@ import { useParams } from "react-router-dom";
 import User from "../../components/User";
 import FriendList from "../../components/FriendList";
 import ComponentWrapper from "../../components/utilities/ComponentWrapper";
+import axios from "axios";
+import OnePostWidget from "../../components/OnePostWidget/OnePostWidget";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
   const token = useSelector((state) => state.auth.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const [profilePosts, setProfilePosts] = useState([]);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
@@ -22,8 +25,19 @@ const ProfilePage = () => {
     setUser(data);
   };
 
+  const getUserPosts = async () => {
+    const response = await axios.get(`http://localhost:7005/post/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("pleaseeeeeeeeeee", response);
+    console.log("hii",response.data.posts);
+    setProfilePosts(response.data.posts);
+    console.log("letssssss",profilePosts);
+  };
+
   useEffect(() => {
     getUser();
+    getUserPosts();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
@@ -38,7 +52,23 @@ const ProfilePage = () => {
         </Box>
         <Box>
           <Box m="2rem 0" />
-          <ComponentWrapper width={5} height={5} />
+          {profilePosts?.map(
+            ({ _id, userId, postImage, likes, comments, description }) => (
+              <OnePostWidget
+                key={_id}
+                postId={_id}
+                postUserId={userId?._id}
+                name={`${userId?.firstName} ${userId?.lastName}`}
+                description={description}
+                location={userId?.location}
+                postImage={postImage}
+                userImage={userId?.userImage}
+                likes={likes}
+                comments={comments}
+              />
+            )
+          )}
+          {/* <ComponentWrapper width={5} height={5} /> */}
         </Box>
       </Box>
     </Box>
