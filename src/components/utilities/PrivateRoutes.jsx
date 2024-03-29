@@ -10,7 +10,7 @@ const PrivateRoutes = () => {
   ) : user !== "admin@gmail.com" ? (
     <Navigate to="/" />
   ) : (
-    <Navigate to="/error" />
+    <Navigate to="/admin" />
   );
 };
 
