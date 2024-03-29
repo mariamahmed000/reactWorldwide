@@ -86,7 +86,7 @@ const Navbar = () => {
               </IconButton>
             </InputBase> */}
             {/* <SearchList></SearchList> */}
-            <SearchResultList />
+            {/* <SearchResultList /> */}
           </FlexBetween>
         )}
 

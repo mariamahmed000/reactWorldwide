@@ -77,6 +77,7 @@ const Form = () => {
 
     if (savedUser) {
       setPageType("login");
+      dispatch(setLogin(savedUser));
       navigate("/home");
     }
   };
@@ -92,14 +93,17 @@ const Form = () => {
       location: "",
       isGoogle: true,
     };
-    const savedUser = await fetch("http://localhost:7005/register", {
+    const savedUserResponse = await fetch("http://localhost:7005/register", {
       method: "POST",
       // body: formData,
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    const savedUser = await savedUserResponse.json();
+
     if (savedUser) {
       setPageType("login");
+      dispatch(setLogin(savedUser));
       navigate("/home");
     }
   };

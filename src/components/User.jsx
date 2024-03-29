@@ -10,7 +10,7 @@ import { Box, Typography, Divider, useTheme, IconButton } from "@mui/material";
 import UserImg from "./utilities/UserImg";
 import FlexBetween from "./utilities/FlexBetween";
 import ComponentWrapper from "./utilities/ComponentWrapper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setFriends } from "../redux/authSlice";
@@ -19,11 +19,15 @@ const User = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
   const { palette } = useTheme();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const currentUser = useSelector((state) => state.auth.user);
+  console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
-  const userFriends = currentUser.friends;
+  const userFriends = useSelector((state) => state.auth.user.friends);
+  console.log("USERFRIENDS", userFriends);
   const isFriend = userFriends.find((friend) => friend._id === userId);
+  console.log("ISFRIEND", isFriend);
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
@@ -62,7 +66,7 @@ const User = ({ userId, picturePath }) => {
     const response = await fetch(
       `http://localhost:7005/user/${currentUser._id}/${userId}`,
       {
-        method: "PATCH",
+        method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -76,7 +80,6 @@ const User = ({ userId, picturePath }) => {
   useEffect(() => {
     getUser();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   if (!user) {
     return null;
