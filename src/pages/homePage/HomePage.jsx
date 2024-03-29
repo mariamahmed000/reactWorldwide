@@ -1,24 +1,6 @@
-// import { Box } from "@mui/material";
-// import AdvertWidget from "../../components/AdvertWidget";
-// import FriendList from "../../components/FriendList";
-
-// const HomePage = () => {
-//   return (
-//     <div>
-//       <Box flexBasis="26%" width="25%">
-//         <AdvertWidget />
-//         <Box m="2rem 0" />
-//         <FriendList />
-//       </Box>
-//     </div>
-//   );
-// };
-
-// export default HomePage;
 
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
-// import PostsWidget from "scenes/widgets/PostsWidget";
 import AdvertWidget from "../../components/AdvertWidget";
 import User from "../../components/User";
 import NewPost from "../../components/NewPost";
@@ -28,7 +10,8 @@ import PostsWidget from "../../components/PostsWidget/PostsWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const { userId, userImage } = useSelector((state) => state.auth.user);
+
+  const { _id, userImage } = useSelector((state) => state.auth.user);
 
   return (
     <Box>
@@ -40,24 +23,23 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          {/* <User userId={userId} picturePath={userImage} /> */}
-          <User userId={"userId"} picturePath={"userImage"} />
+          <User userId={_id} picturePath={userImage} />
+          {/* <User userId={"userId"} picturePath={"userImage"} /> */}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          {/* <NewPost picturePath={userImage} /> */}
-          <NewPost picturePath={"userImage"} />
-          <PostsWidget userId={userId} />
-          <ComponentWrapper width={5} height={5} />
+          <NewPost picturePath={userImage} />
+          <PostsWidget userId={_id} />
+
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
             <AdvertWidget />
             <Box m="2rem 0" />
-            <FriendList userId={"userImage"} />
-            {/* <FriendList userId={userImage} /> */}
+            {/* <FriendList userId={"userImage"} /> */}
+            <FriendList userId={_id} />
           </Box>
         )}
       </Box>

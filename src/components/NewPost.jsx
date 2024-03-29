@@ -27,17 +27,39 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
+import { setPosts } from "../redux/authSlice";
 
 const NewPost = ({ picturePath }) => {
   const [isImage, setIsImage] = useState(false);
   const [image, setImage] = useState(null);
   const [post, setPost] = useState("");
   const { palette } = useTheme();
-  //   const { _id } = useSelector((state) => state.user);
-  //   const token = useSelector((state) => state.token);
+  const { _id } = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
   const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
+
+  const handlePost = async () => {
+    const formData = new FormData();
+    formData.append("userId", _id);
+    formData.append("description", post);
+    if (image) {
+      formData.append("image", image);
+      formData.append("postImage", image.name);
+    }
+
+    const response = await fetch(`http://localhost:7005/post`, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: formData,
+    });
+    const posts = await response.json();
+    dispatch(setPosts({ posts }));
+    setImage(null);
+    setPost("");
+  };
   return (
     <ComponentWrapper>
       <Box display="flex" alignItems="center">
@@ -46,7 +68,7 @@ const NewPost = ({ picturePath }) => {
         </Box>
         <InputBase
           placeholder="What's on your mind..."
-          //   onChange={(e) => setPost(e.target.value)}
+          onChange={(e) => setPost(e.target.value)}
           value={post}
           sx={{
             width: "100%",
@@ -86,7 +108,7 @@ const NewPost = ({ picturePath }) => {
             />
             <Button
               disabled={!post}
-              //   onClick={handlePost}
+              onClick={handlePost}
               sx={{
                 // color: palette.background.alt,
                 // color: palette.background.main,
@@ -169,7 +191,7 @@ const NewPost = ({ picturePath }) => {
 
             <Button
               disabled={!post}
-              //   onClick={handlePost}
+              onClick={handlePost}
               sx={{
                 color: palette.background.alt,
                 backgroundColor: palette.primary.main,
