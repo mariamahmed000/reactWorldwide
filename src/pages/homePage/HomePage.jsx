@@ -27,7 +27,9 @@ import FriendList from "../../components/FriendList";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  // const { userId, userImage } = useSelector((state) => state.auth.data);
+  const userData = useSelector((state) => state.auth.user);
+  console.log(userData);
+  const { _id, userImage } = useSelector((state) => state.auth.user);
 
   return (
     <Box>
@@ -39,15 +41,15 @@ const HomePage = () => {
         justifyContent="space-between"
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
-          {/* <User userId={userId} picturePath={userImage} /> */}
-          <User userId={"userId"} picturePath={"userImage"} />
+          <User userId={_id} picturePath={userImage} />
+          {/* <User userId={"userId"} picturePath={"userImage"} /> */}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
-          {/* <NewPost picturePath={userImage} /> */}
-          <NewPost picturePath={"userImage"} />
+          <NewPost picturePath={userImage} />
+          {/* <NewPost picturePath={"userImage"} /> */}
           {/* <PostsWidget userId={userId} /> */}
           <ComponentWrapper width={5} height={5} />
         </Box>
@@ -55,8 +57,8 @@ const HomePage = () => {
           <Box flexBasis="26%">
             <AdvertWidget />
             <Box m="2rem 0" />
-            <FriendList userId={"userImage"} />
-            {/* <FriendList userId={userImage} /> */}
+            {/* <FriendList userId={"userImage"} /> */}
+            <FriendList userId={_id} />
           </Box>
         )}
       </Box>
