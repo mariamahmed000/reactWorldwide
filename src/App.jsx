@@ -9,6 +9,8 @@ import Login from "./pages/loginPage/Login";
 import ErrorPage from "./pages/errorPage/errorPage";
 import { useSelector } from "react-redux";
 import Navbar from "./components/navbar/navbar";
+import PrivateRoutes from "./components/utilities/PrivateRoutes";
+import Home from "./pages/dashboardPage/Home";
 
 function ConditionalNavbar() {
   const location = useLocation();
@@ -34,10 +36,13 @@ function App() {
           <CssBaseline />
           <ConditionalNavbar />
           <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/home" element={<HomePage />}></Route>
+              <Route path="/profile/:userId" element={<ProfilePage />}></Route>
+              <Route path="*" element={<ErrorPage />}></Route>
+            </Route>
+            <Route path="/admin" element={<Home />}></Route>
             <Route path="/" element={<Login />}></Route>
-            <Route path="/home" element={<HomePage />}></Route>
-            <Route path="/profile/:userId" element={<ProfilePage />}></Route>
-            <Route path="*" element={<ErrorPage />}></Route>
           </Routes>
         </ThemeProvider>
       </BrowserRouter>

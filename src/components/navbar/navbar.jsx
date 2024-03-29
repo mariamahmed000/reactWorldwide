@@ -79,7 +79,6 @@ const Navbar = () => {
             // padding="0.1rem 1.5rem"
             flex-direction="column"
           >
-           
             <SearchResultList />
           </FlexBetween>
         )}

@@ -1,4 +1,3 @@
-
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
 import AdvertWidget from "../../components/AdvertWidget";
@@ -32,7 +31,6 @@ const HomePage = () => {
         >
           <NewPost picturePath={userImage} />
           <PostsWidget userId={_id} />
-
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
