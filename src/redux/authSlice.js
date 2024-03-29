@@ -1,12 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const initialState = {
   mode: "light",
   user: {},
   token: null,
   posts: [],
-  urlString: "/"
+  urlString: "/",
 };
 
 export const authSlice = createSlice({
@@ -14,21 +13,21 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     setUrl: (state, action) => {
-      state.urlString = action.payload
+      state.urlString = action.payload;
     },
     setMode: (state) => {
       state.mode = state.mode === "light" ? "dark" : "light";
     },
     //could make the setLogin contain prepare function and the lgoin function to prepare the action to have to parameters passed, however we will just pass the parameters inside an object as one parameter
     setLogin: (state, action) => {
-      
       state.user = action.payload.data;
       // console.log(state.user);
       state.token = action.payload.token;
     },
     setLogout: (state) => {
-      state.user = null;
+      state.user = {};
       state.token = null;
+      state.posts = [];
     },
     setFriends: (state, action) => {
       if (state.user) {
@@ -50,8 +49,13 @@ export const authSlice = createSlice({
   },
 });
 
-
 export default authSlice.reducer;
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost, setUrl } =
-  authSlice.actions;
-
+export const {
+  setMode,
+  setLogin,
+  setLogout,
+  setFriends,
+  setPosts,
+  setPost,
+  setUrl,
+} = authSlice.actions;
