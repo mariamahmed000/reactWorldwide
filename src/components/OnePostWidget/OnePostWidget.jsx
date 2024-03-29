@@ -156,7 +156,7 @@ const OnePostWidget = ({
               height="auto"
               alt="post"
               style={{ borderRadius: "0.75rem", marginTop: "0.75ren" }}
-              src={`http://localhost:7005/assets/${postImage}`}
+              src={`http://localhost:7005/public/assets/${postImage}`}
             />
           )}
           <Box>
