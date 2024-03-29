@@ -4,6 +4,7 @@ import Friend from "./Friend";
 import { useDispatch, useSelector } from "react-redux";
 import { setFriends } from "../redux/authSlice";
 import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const FriendList = ({ userId }) => {
   const token = useSelector((state) => state.auth.token);
@@ -12,6 +13,7 @@ const FriendList = ({ userId }) => {
   const userFriends = useSelector((state) => state.auth.user.friends);
   console.log("USERFRIENDS", userFriends, "ISFRIEND", isCurrentUser);
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const { palette } = useTheme();
 
@@ -31,7 +33,7 @@ const FriendList = ({ userId }) => {
 
   useEffect(() => {
     getFriends();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <ComponentWrapper>

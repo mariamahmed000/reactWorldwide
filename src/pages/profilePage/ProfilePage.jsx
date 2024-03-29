@@ -1,7 +1,7 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 // import PostsWidget from "scenes/widgets/PostsWidget";
 import User from "../../components/User";
 import FriendList from "../../components/FriendList";
@@ -12,6 +12,7 @@ const ProfilePage = () => {
   const { userId } = useParams();
   const token = useSelector((state) => state.auth.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const { pathname } = useLocation();
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
@@ -24,7 +25,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getUser();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
 
