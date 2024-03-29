@@ -55,8 +55,9 @@ const NewPost = ({ picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
+    const data = await response.json();
+    console.log("New Post Abdallah",data)
+    dispatch(setPosts( data.data ));
     setImage(null);
     setPost("");
   };

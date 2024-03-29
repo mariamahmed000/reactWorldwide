@@ -63,7 +63,7 @@ const OnePostWidget = ({
           },
         }
       );
-      console.log("hi:123", commentsArr.data.userComments);
+      // console.log("hi:123", commentsArr.data.userComments);
       setCommentsDetails(commentsArr.data.userComments);
     };
     fetchComments();

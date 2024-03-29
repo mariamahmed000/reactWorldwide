@@ -79,14 +79,8 @@ const Navbar = () => {
             // padding="0.1rem 1.5rem"
             flex-direction="column"
           >
-            {/* <InputBase placeholder="Search..." value={search} onChange={(e)=>handleChanges(e.target.value)}>
-
-              <IconButton>
-                <Search />
-              </IconButton>
-            </InputBase> */}
-            {/* <SearchList></SearchList> */}
-            {/* <SearchResultList /> */}
+           
+            <SearchResultList />
           </FlexBetween>
         )}
 

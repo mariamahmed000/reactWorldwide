@@ -20,25 +20,25 @@ const PostsWidget = (userId, isProfile = false) => {
         },
       });
       dispatch(setPosts(initialHomePosts.data.data));
-      // console.log(initialHomePosts.data.data);
-      // console.log("hi:", userHomePosts);
+      console.log("posts Mariam",initialHomePosts); //intitialHomePosts.data.data
+      console.log("hi:", userHomePosts);
     };
 
     getFriendsPosts();
   }, [token, dispatch]); // Fetch data on component mount
 
-  const shuffleArrayExceptLast = (arr) => {
-    const lastIndex = arr.length - 1;
+  // const shuffleArrayExceptLast = (arr) => {
+  //   const lastIndex = arr.length - 1;
 
-    for (let i = 0; i < lastIndex; i++) {
-      const randomIndex = Math.floor(Math.random() * (lastIndex - i) + i);
-      const temp = arr[i];
-      arr[i] = arr[randomIndex];
-      arr[randomIndex] = temp;
-    }
+  //   for (let i = 0; i < lastIndex; i++) {
+  //     const randomIndex = Math.floor(Math.random() * (lastIndex - i) + i);
+  //     const temp = arr[i];
+  //     arr[i] = arr[randomIndex];
+  //     arr[randomIndex] = temp;
+  //   }
 
-    return arr.reverse();
-  };
+  //   return arr.reverse();
+  // };
 
   // useEffect(() => {
   //   if (isFirstMount) {
