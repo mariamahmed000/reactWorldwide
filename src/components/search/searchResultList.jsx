@@ -34,7 +34,7 @@ export default function SearchResultList(props) {
   const [search,setSearch]=useState('');
   const [result,setResult]=useState([]);
   const usersArr=useSelector((state=>state.users.users.data))
-  console.log(usersArr);
+  // console.log(usersArr);
 
   useEffect(()=>{
     dispatch(getAllUsers());
@@ -47,16 +47,16 @@ export default function SearchResultList(props) {
   //  console.log("result",result);
    setResult(results);
   } 
-  console.log("result",result);
+  // console.log("result",result);
 
  const handleChanges=(value)=>{
-  console.log("value",value);
+  // console.log("value",value);
   setSearch(value);
   getUser(value)
 
  }
 
-  console.log("search",search);
+  // console.log("search",search);
 
 
   return (
@@ -69,7 +69,7 @@ export default function SearchResultList(props) {
     options={result}
     sx={{ width: 300 }}
     renderInput={(params) => <TextField {...params}  label="Search" >
-      {console.log("params",params)}
+      {/* {console.log("params",params)} */}
     </TextField>
     }
   />

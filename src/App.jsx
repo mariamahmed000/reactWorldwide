@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import { themeSettings } from "./themes";
-import { useMemo} from "react";
+import { useMemo } from "react";
 import HomePage from "./pages/homePage/HomePage";
 import ProfilePage from "./pages/profilePage/ProfilePage";
 import Login from "./pages/loginPage/Login";
@@ -12,17 +12,15 @@ import Navbar from "./components/navbar/navbar";
 
 function ConditionalNavbar() {
   const location = useLocation();
-  if(location.pathname !== "/"){
-    return <Navbar/>
+  if (location.pathname !== "/") {
+    return <Navbar />;
   } else {
-    return null
+    return null;
   }
-  
 }
 
 function App() {
   const Mode = useSelector((state) => state.auth.mode);
-  
 
   const theme = useMemo(() => {
     return createTheme(themeSettings(Mode));

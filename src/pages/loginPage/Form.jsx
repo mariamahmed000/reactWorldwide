@@ -74,7 +74,7 @@ const Form = () => {
     });
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
-
+    
     if (savedUser) {
       setPageType("login");
       dispatch(setLogin(savedUser));

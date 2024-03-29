@@ -1,34 +1,16 @@
-// import { Box } from "@mui/material";
-// import AdvertWidget from "../../components/AdvertWidget";
-// import FriendList from "../../components/FriendList";
-
-// const HomePage = () => {
-//   return (
-//     <div>
-//       <Box flexBasis="26%" width="25%">
-//         <AdvertWidget />
-//         <Box m="2rem 0" />
-//         <FriendList />
-//       </Box>
-//     </div>
-//   );
-// };
-
-// export default HomePage;
 
 import { Box, useMediaQuery } from "@mui/material";
 import { useSelector } from "react-redux";
-// import PostsWidget from "scenes/widgets/PostsWidget";
 import AdvertWidget from "../../components/AdvertWidget";
 import User from "../../components/User";
 import NewPost from "../../components/NewPost";
 import ComponentWrapper from "../../components/utilities/ComponentWrapper";
 import FriendList from "../../components/FriendList";
+import PostsWidget from "../../components/PostsWidget/PostsWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  const userData = useSelector((state) => state.auth.user);
-  console.log(userData);
+
   const { _id, userImage } = useSelector((state) => state.auth.user);
 
   return (
@@ -49,9 +31,8 @@ const HomePage = () => {
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <NewPost picturePath={userImage} />
-          {/* <NewPost picturePath={"userImage"} /> */}
-          {/* <PostsWidget userId={userId} /> */}
-          <ComponentWrapper width={5} height={5} />
+          <PostsWidget userId={_id} />
+
         </Box>
         {isNonMobileScreens && (
           <Box flexBasis="26%">
