@@ -22,12 +22,12 @@ const User = ({ userId, picturePath }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const currentUser = useSelector((state) => state.auth.user);
-  console.log("AHHHHHHHHHH", currentUser);
+  // console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
-  console.log("USERFRIENDS", userFriends);
+  // console.log("USERFRIENDS", userFriends);
   const isFriend = userFriends.find((friend) => friend._id === userId);
-  console.log("ISFRIEND", isFriend);
+  // console.log("ISFRIEND", isFriend);
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
@@ -40,7 +40,7 @@ const User = ({ userId, picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setUser(data);
     if (pathname.includes("/profile")) {
       const viewedProfileRes = await fetch(

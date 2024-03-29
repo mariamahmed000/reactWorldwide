@@ -24,6 +24,7 @@ const ProfilePage = () => {
     });
     const data = await response.json();
     setUser(data);
+    getUserPosts();
   };
 
   const getUserPosts = async () => {
@@ -38,7 +39,7 @@ const ProfilePage = () => {
 
   useEffect(() => {
     getUser();
-    getUserPosts();
+    // getUserPosts();
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
