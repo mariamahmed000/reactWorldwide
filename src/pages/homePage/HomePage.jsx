@@ -24,10 +24,11 @@ import User from "../../components/User";
 import NewPost from "../../components/NewPost";
 import ComponentWrapper from "../../components/utilities/ComponentWrapper";
 import FriendList from "../../components/FriendList";
+import PostsWidget from "../../components/PostsWidget/PostsWidget";
 
 const HomePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
-  // const { userId, userImage } = useSelector((state) => state.auth.data);
+  const { userId, userImage } = useSelector((state) => state.auth.user);
 
   return (
     <Box>
@@ -48,7 +49,7 @@ const HomePage = () => {
         >
           {/* <NewPost picturePath={userImage} /> */}
           <NewPost picturePath={"userImage"} />
-          {/* <PostsWidget userId={userId} /> */}
+          <PostsWidget userId={userId} />
           <ComponentWrapper width={5} height={5} />
         </Box>
         {isNonMobileScreens && (
