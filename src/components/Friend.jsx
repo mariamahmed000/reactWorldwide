@@ -3,7 +3,7 @@ import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import FlexBetween from "./utilities/FlexBetween";
 import UserImg from "./utilities/UserImg";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { setFriends } from "../redux/authSlice";
 import { useEffect } from "react";
 
@@ -20,6 +20,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const friends = useSelector((state) => state.auth.user.friends);
 
   const isFriend = friends.find((friend) => friend._id === friendId);
+  const { pathname } = useLocation();
 
   const patchFriend = async () => {
     const response = await fetch(
@@ -33,7 +34,8 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       }
     );
     const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    const friendsArr = pathname.includes("/profile") ? data.friend : data.user;
+    dispatch(setFriends({ friends: friendsArr }));
   };
 
   const { palette } = useTheme();
@@ -70,16 +72,18 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      <IconButton
-        onClick={() => patchFriend()}
-        sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        )}
-      </IconButton>
+      {pathname.includes("/home") && (
+        <IconButton
+          onClick={() => patchFriend()}
+          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+      )}
     </FlexBetween>
     // <FlexBetween>
     //   <FlexBetween gap="1rem">

@@ -14,6 +14,8 @@ const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const { pathname } = useLocation();
 
+  // console.log("USERPIC", user);
+
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
       method: "GET",
@@ -33,7 +35,7 @@ const ProfilePage = () => {
     <Box>
       <Box width="100%" padding="2rem 6%" gap="2rem" justifyContent="center">
         <Box>
-          <User userId={userId} picturePath={user.picturePath} />
+          <User userId={userId} picturePath={user.data.userImage} />
           <Box m="2rem 0" />
           <FriendList userId={userId} />
         </Box>
