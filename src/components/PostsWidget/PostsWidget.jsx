@@ -18,28 +18,58 @@ const PostsWidget = (userId) => {
         },
       });
       dispatch(setPosts(initialHomePosts.data.data));
+      console.log("postsALLLLLLL", userHomePosts);
     };
 
     getFriendsPosts();
   }, [token, dispatch]); // Fetch data on component mount
 
+  useEffect(() => {
+    // Sort userHomePosts array in ascending order based on createdAt
+    const sortedPosts = userHomePosts.slice().sort((a, b) => {
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+    setData(sortedPosts);
+  }, [userHomePosts]);
+
   return (
     <>
-      {userHomePosts?.map(
-        ({ _id, userId, postImage, likes, comments, description }) => (
-          <OnePostWidget
-            key={_id}
-            postId={_id}
-            postUserId={userId?._id}
-            name={`${userId?.firstName} ${userId?.lastName}`}
-            description={description}
-            location={userId?.location}
-            postImage={postImage}
-            userImage={userId?.userImage}
-            likes={likes}
-            comments={comments}
-          />
-        )
+      {data?.map(
+        ({
+          _id,
+          userId,
+          postImage,
+          likes,
+          comments,
+          description,
+          createdAt,
+        }) => {
+          const date = new Date(createdAt);
+          const formattedDate = date.toLocaleString("en-US", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+
+          return (
+            <OnePostWidget
+              key={_id}
+              postId={_id}
+              postUserId={userId?._id}
+              name={`${userId?.firstName} ${userId?.lastName}`}
+              description={description}
+              location={userId?.location}
+              postImage={postImage}
+              userImage={userId?.userImage}
+              likes={likes}
+              comments={comments}
+              createdAt={formattedDate}
+            />
+          );
+        }
       )}
     </>
   );
