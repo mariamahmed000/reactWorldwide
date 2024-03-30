@@ -1,4 +1,5 @@
 // color design tokens export
+
 export const colorTokens = {
   grey: {
     0: "#FFFFFF",
@@ -16,47 +17,18 @@ export const colorTokens = {
     1000: "#000000",
   },
   primary: {
-    50: "#E6FBFF",
-    100: "#CCF7FE",
-    200: "#99EEFD",
-    300: "#66E6FC",
-    400: "#33DDFB",
-    500: "#00D5FA",
-    600: "#00A0BC",
-    700: "#006B7D",
-    800: "#00353F",
-    900: "#001519",
+    50: "#F0FFF4",
+    100: "#E2EDDE",
+    200: "#C6DBBD",
+    300: "#A9C99C",
+    400: "#8DB67C",
+    500: "#70A45B",
+    600: "#5D884B",
+    700: "#436336",
+    800: "#2D4224",
+    900: "#162112",
   },
 };
-// export const colorTokens = {
-//   grey: {
-//     0: "#FFFFFF",
-//     10: "#F9F9F9",
-//     50: "#F2F2F2",
-//     100: "#E6E6E6",
-//     200: "#CCCCCC",
-//     300: "#B3B3B3",
-//     400: "#999999",
-//     500: "#7F7F7F",
-//     600: "#666666",
-//     700: "#4C4C4C",
-//     800: "#333333",
-//     900: "#1A1A1A",
-//     1000: "#000000",
-//   },
-//   primary: {
-//     50: "#FFE6F9",
-//     100: "#FFCCF2",
-//     200: "#FF99E5",
-//     300: "#FF66D9",
-//     400: "#FF33CC",
-//     500: "#FF00C0",
-//     600: "#CC0099",
-//     700: "#990073",
-//     800: "#66004C",
-//     900: "#330026",
-//   },
-// };
 
 // mui theme settings
 export const themeSettings = (mode) => {
@@ -67,9 +39,10 @@ export const themeSettings = (mode) => {
         ? {
             // palette values for dark mode
             primary: {
-              dark: colorTokens.primary[200],
-              main: colorTokens.primary[500],
-              light: colorTokens.primary[800],
+              dark: colorTokens.primary[400],
+              main: colorTokens.primary[700],
+              light: colorTokens.primary[900],
+              xlight: colorTokens.primary[50],
             },
             neutral: {
               dark: colorTokens.grey[100],
