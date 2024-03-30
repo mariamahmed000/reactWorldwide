@@ -120,7 +120,7 @@ const User = ({ userId, picturePath }) => {
             maxHeight: "20rem",
             aspectRatio: "2 / 1",
           }}
-          src="https://images.pexels.com/photos/268941/pexels-photo-268941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src="https://images.unsplash.com/photo-1530634693970-4f30bb329de4?q=80&w=1951&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         />
       )}
       <FlexBetween
