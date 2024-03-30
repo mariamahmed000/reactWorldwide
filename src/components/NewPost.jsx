@@ -5,7 +5,6 @@ import FlexBetween from "./utilities/FlexBetween";
 import Dropzone from "react-dropzone";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-// import { setPosts } from "state";
 import {
   EditOutlined,
   DeleteOutlined,
@@ -56,7 +55,6 @@ const NewPost = ({ picturePath }) => {
       body: formData,
     });
     const data = await response.json();
-    console.log("New Post Abdallah", data);
     dispatch(setPosts(data.data));
     setImage(null);
     setPost("");
@@ -112,12 +110,8 @@ const NewPost = ({ picturePath }) => {
               disabled={!post}
               onClick={handlePost}
               sx={{
-                // color: palette.background.alt,
-                // color: palette.background.main,
-                // backgroundColor: palette.primary.main,
                 borderRadius: "1rem",
                 padding: 1,
-                // marginLeft: -1,
                 zIndex: 1,
               }}
             >

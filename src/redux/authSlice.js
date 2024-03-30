@@ -21,7 +21,6 @@ export const authSlice = createSlice({
     //could make the setLogin contain prepare function and the lgoin function to prepare the action to have to parameters passed, however we will just pass the parameters inside an object as one parameter
     setLogin: (state, action) => {
       state.user = action.payload.data;
-      // console.log(state.user);
       state.token = action.payload.token;
     },
     setLogout: (state) => {

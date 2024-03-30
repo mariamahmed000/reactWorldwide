@@ -13,7 +13,7 @@ const FriendList = ({ userId }) => {
   const userFriends = useSelector((state) => state.auth.user.friends);
   const isFriend = userFriends?.find((friend) => friend._id === userId);
 
-  console.log("USERFRIENDS", userFriends, "ISFRIEND", isFriend);
+  "USERFRIENDS", userFriends, "ISFRIEND", isFriend;
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -28,7 +28,6 @@ const FriendList = ({ userId }) => {
       }
     );
     const data = await response.json();
-    console.log("DATA", data);
 
     dispatch(setFriends({ friends: data.data }));
   };
@@ -63,19 +62,6 @@ const FriendList = ({ userId }) => {
         )}
       </Box>
     </ComponentWrapper>
-    // <ComponentWrapper>
-    //   <Typography
-    //     color={palette.neutral.dark}
-    //     variant="h5"
-    //     fontWeight="500"
-    //     sx={{ mb: "1.5rem" }}
-    //   >
-    //     Friend List
-    //   </Typography>
-    //   <Box display="flex" flexDirection="column" gap="1.5rem">
-    //     <Friend />
-    //   </Box>
-    // </ComponentWrapper>
   );
 };
 

@@ -8,7 +8,6 @@ import {
   useTheme,
   Alert,
 } from "@mui/material";
-// import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { Formik } from "formik";
 import * as yup from "yup";
 import { GoogleLogin } from "@react-oauth/google";
@@ -16,12 +15,8 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import Snackbar from "@mui/material/Snackbar";
-// import { useDispatch } from "react-redux";
 import { setLogin, setUrl } from "../../redux/authSlice";
 
-// import { setLogin } from "state";
-// import Dropzone from "react-dropzone";
-// import FlexBetween from "../../components/FlexBetween";
 
 const registerSchema = yup.object().shape({
   firstName: yup.string().required("required"),
@@ -124,40 +119,11 @@ const Form = () => {
       const loggedIn = await loggedInResponse.json();
       dispatch(setLogin(loggedIn));
       onSubmitProps.resetForm();
-      console.log(loggedIn);
-      // if (loggedIn) {
-      //   dispatch(
-      //     setLogin({
-      //       user: loggedIn.user,
-      //       token: loggedIn.token,
-      //     })
-      //   );
-      // }
-      // dispatch(setUrl("/home"))
 
       navigate("/home");
     } catch (error) {
       console.log(error);
     }
-    //     const loggedInResponse = await fetch("http://localhost:7005/login", {
-    //       method: "POST",
-    //       headers: { "Content-Type": "application/json" },
-    //       body: JSON.stringify(values),
-    //     });
-    //     const loggedIn = await loggedInResponse.json();
-    //     dispatch(setLogin(loggedIn));
-    //     onSubmitProps.resetForm();
-    //     // console.log(loggedIn);
-    //     // if (loggedIn) {
-    //     //   dispatch(
-    //     //     setLogin({
-    //     //       user: loggedIn.user,
-    //     //       token: loggedIn.token,
-    //     //     })
-    //     //   );
-    //     // }
-    //     dispatch(setUrl("/home"))
-    //     navigate("/home");
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -329,7 +295,6 @@ const Form = () => {
 
                     sendGoogleAuth(decoded);
                     navigate("/");
-                    console.log(decoded);
                   }}
                   onError={() => {
                     console.log("Login Failed");

@@ -5,7 +5,6 @@ import { useLocation, useParams } from "react-router-dom";
 // import PostsWidget from "scenes/widgets/PostsWidget";
 import User from "../../components/User";
 import FriendList from "../../components/FriendList";
-import ComponentWrapper from "../../components/utilities/ComponentWrapper";
 import axios from "axios";
 import OnePostWidget from "../../components/OnePostWidget/OnePostWidget";
 import AdvertWidget from "../../components/AdvertWidget";
@@ -17,8 +16,6 @@ const ProfilePage = () => {
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
   const [profilePosts, setProfilePosts] = useState([]);
   const { pathname } = useLocation();
-
-  // console.log("USERPIC", user);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
@@ -34,10 +31,7 @@ const ProfilePage = () => {
     const response = await axios.get(`http://localhost:7005/post/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("pleaseeeeeeeeeee", response);
-    console.log("hii", response.data.posts);
     setProfilePosts(response.data.posts);
-    console.log("letssssss", profilePosts);
   };
 
   useEffect(() => {
@@ -79,7 +73,6 @@ const ProfilePage = () => {
                 />
               )
             )}
-            {/* <ComponentWrapper width={5} height={5} /> */}
           </Box>
           {isNonMobileScreens && (
             <Box width="40rem">

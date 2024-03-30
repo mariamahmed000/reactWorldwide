@@ -15,10 +15,7 @@ import {
   SendOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import Input from "@mui/material/Input";
-import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
@@ -44,7 +41,6 @@ const OnePostWidget = ({
   const token = useSelector((state) => state.auth.token);
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector((state) => state.auth.user._id);
-  // const loggedInUserImage = useSelector((state) => state.auth.user.userImage);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
   const [commentsDetails, setCommentsDetails] = useState([]); //comments array for each post
@@ -57,8 +53,6 @@ const OnePostWidget = ({
   const main = palette.neutral.main;
   const medium = palette.neutral.medium;
 
-  console.log("POST_IMAGE", postImage);
-
   useEffect(() => {
     const fetchComments = async () => {
       const reponse = await axios.get(
@@ -69,16 +63,13 @@ const OnePostWidget = ({
           },
         }
       );
-      // console.log("hi:123", reponse.data.userComments);
       setCommentsDetails(reponse.data.userComments);
-      // console.log("comments", commentsDetails);
     };
     fetchComments();
   }, [postId, addedComment, token]);
 
   //toggle the like button to adjust the post in the database
   const patchLike = async () => {
-    // console.log(token);
     let updatedPost = await fetch(
       `http://localhost:7005/post/${postId}/like`,
 
@@ -87,12 +78,9 @@ const OnePostWidget = ({
         headers: {
           Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
         },
-        // body: JSON.stringify({ userId: loggedInUserId }),
       }
     );
-    // console.log(updatedPost);
     updatedPost = await updatedPost.json();
-    // console.log(updatedPost);
     dispatch(setPost({ post: updatedPost.updatedPost }));
   };
 
@@ -109,13 +97,10 @@ const OnePostWidget = ({
         body: JSON.stringify({ userComment: addedComment }),
       }
     );
-    // console.log("1111", addedComment);
     setaddedComment({ userComment: comment });
-    // console.log("Adding comment:", comment);
-    // setComment("");
   };
 
-//function to revere the comments array
+  //function to revere the comments array
   const reverseComments = (arr) => {
     return arr.reverse();
   };
@@ -124,7 +109,6 @@ const OnePostWidget = ({
   useEffect(() => {
     setReverseCommentsArr(reverseComments([...commentsDetails])); // Create a copy to avoid mutating state
   }, [commentsDetails]);
-  // console.log(userHomePosts)
 
   return (
     <>

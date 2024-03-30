@@ -23,7 +23,6 @@ const HomePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <User userId={_id} picturePath={userImage} />
-          {/* <User userId={"userId"} picturePath={"userImage"} /> */}
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
@@ -37,7 +36,6 @@ const HomePage = () => {
           <Box flexBasis="26%">
             <AdvertWidget />
             <Box m="2rem 0" />
-            {/* <FriendList userId={"userImage"} /> */}
             <FriendList userId={_id} />
           </Box>
         )}

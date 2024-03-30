@@ -56,9 +56,6 @@ export default function SearchResultList(props) {
         "& .MuiInputBase-root": {
           width: 300,
           height: 40,
-          // paddingBottom: 2,
-          // marginBottom: 2,
-          // paddingTop: 2, // Remove border from input
         },
       }}
       renderInput={(params) => <TextField {...params} label="Search" />}

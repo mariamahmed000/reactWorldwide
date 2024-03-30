@@ -28,7 +28,6 @@ function App() {
     return createTheme(themeSettings(Mode));
   }, [Mode]);
 
-  console.log("location", location.pathname);
   return (
     <div className="app">
       <BrowserRouter>

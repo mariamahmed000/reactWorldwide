@@ -18,33 +18,21 @@ import { borderRadius } from "@mui/system";
 
 const User = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
-  const [currentUserFriends, setCurrentUserFriends] = useState([]);
   let toggleUser;
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const currentUser = useSelector((state) => state.auth.user);
-  const currentUserId = useSelector((state) => state.auth.user._id);
-  // console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
 
-  console.log("USERFRIENDS", userFriends);
-  // const isFriend = currentUserFriends?.find((friend) => friend._id === userId);
-  let isFriend = user?.data.friends.find(
-    (friendId) => friendId === currentUserId
-  );
-  console.log("ISNEWFRIEND", isFriend);
-  // console.log("ISFRIEND", isFriend);
-  // console.log("PICTUREPATH", picturePath);
+  const isFriend = userFriends?.some((friend) => friend._id === userId);
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
   const { pathname } = useLocation();
-
-  console.log("PATHNAME_STR", pathname);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
@@ -52,7 +40,6 @@ const User = ({ userId, picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    // console.log(data);
     setUser(data);
     if (pathname.includes("/profile")) {
       const viewedProfileRes = await fetch(
@@ -86,41 +73,19 @@ const User = ({ userId, picturePath }) => {
       }
     );
     toggleUser = await response.json();
-    // const friendsArr = pathname.includes("/profile")
-    //   ? toggleUser.friend
-    //   : toggleUser.user;
-    // console.log("FRIENDARR", friendsArr);
     dispatch(setFriends({ friends: toggleUser.friend }));
-    setCurrentUserFriends(toggleUser.user);
   };
 
   useEffect(() => {
     getUser();
-  }, [pathname, currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname, currentUser, toggleUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) {
     return null;
   }
 
-  //   const user = {
-  //     firstName: "Gareth",
-  //     lastName: "Bale",
-  //     location: "El Marg",
-  //     occupation: "Doctor",
-  //     viewedProfile: 55,
-  //     impressions: 250,
-  //     friends: [],
-  //   };
-
-  const {
-    firstName,
-    lastName,
-    location,
-    occupation,
-    viewedProfile,
-    impressions,
-    friends,
-  } = user.data;
+  const { firstName, lastName, location, viewedProfile, impressions, friends } =
+    user.data;
 
   return (
     <ComponentWrapper>
@@ -188,6 +153,7 @@ const User = ({ userId, picturePath }) => {
         display="flex"
         flexDirection={pathname.includes("/profile") ? "row" : "column"}
         justifyContent="space-around"
+        gap="1rem"
       >
         <Box display="flex" alignItems="center" gap="1rem">
           <LocationOnOutlined fontSize="large" sx={{ color: main }} />
