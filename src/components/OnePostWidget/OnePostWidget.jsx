@@ -35,6 +35,7 @@ const OnePostWidget = ({
   userImage,
   likes,
   comments,
+  createdAt,
 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -122,8 +123,17 @@ const OnePostWidget = ({
           }}
         >
           {/* display user */}
-          <FlexBetween>
-            <FlexBetween gap="1rem">
+          <FlexBetween
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              minWidth: "100%"
+            }}
+          >
+            <FlexBetween
+              gap="1rem"
+            >
               <UserImg image={userImage} size="55px" />
               <Box>
                 <Typography
@@ -147,6 +157,9 @@ const OnePostWidget = ({
                 </Typography>
               </Box>
             </FlexBetween>
+            <Typography color={medium} fontSize="0.75rem" sx={{alignSelf: "start", paddingTop:"0.75rem", justifySelf:"end"}}>
+              {createdAt}
+            </Typography>
           </FlexBetween>
           {/* post part */}
           <Typography color={main}>{description}</Typography>
@@ -257,6 +270,10 @@ const OnePostWidget = ({
                           pl: "0.4rem",
                           fontWeight: "bold",
                           fontSize: "0.75rem",
+                          "&:hover": {
+                            color: medium,
+                            cursor: "pointer",
+                          },
                         }}
                         onClick={() => {
                           navigate(`/profile/${comment?.userId}`);
