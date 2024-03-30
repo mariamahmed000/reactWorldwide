@@ -18,19 +18,25 @@ import { borderRadius } from "@mui/system";
 
 const User = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
+  const [currentUserFriends, setCurrentUserFriends] = useState([]);
   let toggleUser;
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const currentUser = useSelector((state) => state.auth.user);
+  const currentUserId = useSelector((state) => state.auth.user._id);
   // console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
 
   console.log("USERFRIENDS", userFriends);
-  const isFriend = userFriends?.some((friend) => friend._id === userId);
-  console.log("ISFRIEND", isFriend);
+  // const isFriend = currentUserFriends?.find((friend) => friend._id === userId);
+  let isFriend = user?.data.friends.find(
+    (friendId) => friendId === currentUserId
+  );
+  console.log("ISNEWFRIEND", isFriend);
+  // console.log("ISFRIEND", isFriend);
   // console.log("PICTUREPATH", picturePath);
 
   const dark = palette.neutral.dark;
@@ -85,11 +91,12 @@ const User = ({ userId, picturePath }) => {
     //   : toggleUser.user;
     // console.log("FRIENDARR", friendsArr);
     dispatch(setFriends({ friends: toggleUser.friend }));
+    setCurrentUserFriends(toggleUser.user);
   };
 
   useEffect(() => {
     getUser();
-  }, [pathname, currentUser, toggleUser]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname, currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) {
     return null;

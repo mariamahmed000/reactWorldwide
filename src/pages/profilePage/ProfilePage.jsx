@@ -8,6 +8,7 @@ import FriendList from "../../components/FriendList";
 import ComponentWrapper from "../../components/utilities/ComponentWrapper";
 import axios from "axios";
 import OnePostWidget from "../../components/OnePostWidget/OnePostWidget";
+import AdvertWidget from "../../components/AdvertWidget";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -34,9 +35,9 @@ const ProfilePage = () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     console.log("pleaseeeeeeeeeee", response);
-    console.log("hii",response.data.posts);
+    console.log("hii", response.data.posts);
     setProfilePosts(response.data.posts);
-    console.log("letssssss",profilePosts);
+    console.log("letssssss", profilePosts);
   };
 
   useEffect(() => {
@@ -48,31 +49,43 @@ const ProfilePage = () => {
 
   return (
     <Box>
-      <Box width="100%" padding="2rem 6%" gap="2rem" justifyContent="center">
+      <Box width="100%" padding="2rem 6%">
         <Box>
           <User userId={userId} picturePath={user.data.userImage} />
           <Box m="2rem 0" />
-          <FriendList userId={userId} />
         </Box>
-        <Box>
-          <Box m="2rem 0" />
-          {profilePosts?.map(
-            ({ _id, userId, postImage, likes, comments, description }) => (
-              <OnePostWidget
-                key={_id}
-                postId={_id}
-                postUserId={userId?._id}
-                name={`${userId?.firstName} ${userId?.lastName}`}
-                description={description}
-                location={userId?.location}
-                postImage={postImage}
-                userImage={userId?.userImage}
-                likes={likes}
-                comments={comments}
-              />
-            )
+        <Box
+          display="flex"
+          flexDirection={isNonMobileScreens ? "row" : "column"}
+          gap="2rem"
+        >
+          <Box sx={isNonMobileScreens && { width: "40rem" }}>
+            <FriendList userId={userId} />
+          </Box>
+          <Box>
+            {profilePosts?.map(
+              ({ _id, userId, postImage, likes, comments, description }) => (
+                <OnePostWidget
+                  key={_id}
+                  postId={_id}
+                  postUserId={userId?._id}
+                  name={`${userId?.firstName} ${userId?.lastName}`}
+                  description={description}
+                  location={userId?.location}
+                  postImage={postImage}
+                  userImage={userId?.userImage}
+                  likes={likes}
+                  comments={comments}
+                />
+              )
+            )}
+            {/* <ComponentWrapper width={5} height={5} /> */}
+          </Box>
+          {isNonMobileScreens && (
+            <Box width="40rem">
+              <AdvertWidget />
+            </Box>
           )}
-          {/* <ComponentWrapper width={5} height={5} /> */}
         </Box>
       </Box>
     </Box>

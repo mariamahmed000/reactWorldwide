@@ -113,7 +113,7 @@ const OnePostWidget = ({
 
   return (
     <>
-      <Box mt={2}>
+      <Box mb={2}>
         <ComponentWrapper
           sx={{
             display: "flex",

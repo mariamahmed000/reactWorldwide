@@ -11,7 +11,9 @@ const FriendList = ({ userId }) => {
   const currentUser = useSelector((state) => state.auth.user);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
-  console.log("USERFRIENDS", userFriends, "ISFRIEND", isCurrentUser);
+  const isFriend = userFriends?.find((friend) => friend._id === userId);
+
+  console.log("USERFRIENDS", userFriends, "ISFRIEND", isFriend);
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
@@ -57,7 +59,7 @@ const FriendList = ({ userId }) => {
             />
           ))
         ) : (
-          <h1>no friends</h1>
+          <h1>No Friends</h1>
         )}
       </Box>
     </ComponentWrapper>
