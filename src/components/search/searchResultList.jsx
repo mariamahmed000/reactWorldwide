@@ -49,7 +49,18 @@ export default function SearchResultList(props) {
       inputValue={search}
       onInputChange={(e, newValue) => handleChanges(newValue)}
       options={result}
-      sx={{ width: 300 }}
+      sx={{
+        width: 300,
+        height: 40,
+
+        "& .MuiInputBase-root": {
+          width: 300,
+          height: 40,
+          // paddingBottom: 2,
+          // marginBottom: 2,
+          // paddingTop: 2, // Remove border from input
+        },
+      }}
       renderInput={(params) => <TextField {...params} label="Search" />}
     />
   );

@@ -55,7 +55,7 @@ const Navbar = () => {
   // console.log(search);
 
   return (
-    <FlexBetween padding="1rem 6%" backgroundColor={alt}>
+    <FlexBetween padding=".7rem 6%" backgroundColor={alt} height={"60px"}>
       <FlexBetween gap="1.75rem">
         <Typography
           fontWeight="bold"
@@ -64,7 +64,6 @@ const Navbar = () => {
           onClick={() => navigate("/home")}
           sx={{
             "&:hover": {
-              color: primaryLight,
               cursor: "pointer",
             },
           }}

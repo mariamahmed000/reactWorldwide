@@ -56,16 +56,16 @@ const NewPost = ({ picturePath }) => {
       body: formData,
     });
     const data = await response.json();
-    console.log("New Post Abdallah",data)
-    dispatch(setPosts( data.data ));
+    console.log("New Post Abdallah", data);
+    dispatch(setPosts(data.data));
     setImage(null);
     setPost("");
   };
   return (
     <ComponentWrapper>
       <Box display="flex" alignItems="center">
-        <Box sx={{ marginRight: -8.2, marginLeft: 1, zIndex: 1 }}>
-          <UserImg image={picturePath} />
+        <Box sx={{ marginRight: -5.5, marginLeft: 1, zIndex: 1 }}>
+          <UserImg image={picturePath} size={"40px"} />
         </Box>
         <InputBase
           placeholder="What's on your mind..."
@@ -78,6 +78,7 @@ const NewPost = ({ picturePath }) => {
             padding: "1.5rem 0",
             paddingLeft: "5rem",
             paddingRight: `${isNonMobileScreens ? "2.5rem" : "5.6rem"}`,
+            height: "3rem",
           }}
         />
         {!isNonMobileScreens && (

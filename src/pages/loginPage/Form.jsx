@@ -74,7 +74,7 @@ const Form = () => {
     });
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
-    
+
     if (savedUser) {
       setPageType("login");
       dispatch(setLogin(savedUser));
@@ -345,6 +345,7 @@ const Form = () => {
               sx={{
                 textDecoration: "underline",
                 color: palette.primary.main,
+                textAlign: "center",
                 "&:hover": {
                   cursor: "pointer",
                   color: palette.primary.dark,

@@ -133,11 +133,11 @@ const User = ({ userId, picturePath }) => {
           style={{
             borderRadius: "0.75rem",
             marginTop: "0.75rem",
-            objectFit: "cover",
             maxHeight: "20rem",
             aspectRatio: "2 / 1",
+            backgroundSize: "cover",
           }}
-          src="https://images.unsplash.com/photo-1530634693970-4f30bb329de4?q=80&w=1951&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src="https://images.pexels.com/photos/66997/pexels-photo-66997.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
         />
       )}
       <FlexBetween
@@ -150,11 +150,11 @@ const User = ({ userId, picturePath }) => {
           <Box>
             <Typography
               variant="h4"
-              color={dark}
+              color={palette.primary.dark}
               fontWeight="500"
               sx={{
                 "&:hover": {
-                  color: palette.primary.light,
+                  color: palette.primary.main,
                   cursor: "pointer",
                 },
               }}
@@ -195,7 +195,7 @@ const User = ({ userId, picturePath }) => {
         </Box>
         <Box display="flex" alignItems="center" gap="1rem">
           <WorkOutlineOutlined fontSize="large" sx={{ color: main }} />
-          <Typography color={medium}>{"occupation"}</Typography>
+          <Typography color={medium}>{"Software Engineer"}</Typography>
         </Box>
       </Box>
 
