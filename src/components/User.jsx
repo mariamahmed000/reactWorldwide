@@ -24,9 +24,10 @@ const User = ({ userId, picturePath }) => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const currentUser = useSelector((state) => state.auth.user);
-  console.log("AHHHHHHHHHH", currentUser);
+  // console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
+
   console.log("USERFRIENDS", userFriends);
   const isFriend = userFriends?.some((friend) => friend._id === userId);
   console.log("ISFRIEND", isFriend);
@@ -45,7 +46,7 @@ const User = ({ userId, picturePath }) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     setUser(data);
     if (pathname.includes("/profile")) {
       const viewedProfileRes = await fetch(
@@ -129,7 +130,7 @@ const User = ({ userId, picturePath }) => {
             maxHeight: "20rem",
             aspectRatio: "2 / 1",
           }}
-          src="https://images.pexels.com/photos/268941/pexels-photo-268941.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+          src="https://images.unsplash.com/photo-1530634693970-4f30bb329de4?q=80&w=1951&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         />
       )}
       <FlexBetween
