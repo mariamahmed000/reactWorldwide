@@ -14,9 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { setFriends } from "../redux/authSlice";
+import { borderRadius } from "@mui/system";
 
 const User = ({ userId, picturePath }) => {
   const [user, setUser] = useState(null);
+  let toggleUser;
   const { palette } = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -25,14 +27,18 @@ const User = ({ userId, picturePath }) => {
   // console.log("AHHHHHHHHHH", currentUser);
   const isCurrentUser = userId === currentUser._id;
   const userFriends = useSelector((state) => state.auth.user.friends);
-  // console.log("USERFRIENDS", userFriends);
-  const isFriend = userFriends.find((friend) => friend._id === userId);
-  // console.log("ISFRIEND", isFriend);
+
+  console.log("USERFRIENDS", userFriends);
+  const isFriend = userFriends?.some((friend) => friend._id === userId);
+  console.log("ISFRIEND", isFriend);
+  // console.log("PICTUREPATH", picturePath);
 
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
   const { pathname } = useLocation();
+
+  console.log("PATHNAME_STR", pathname);
 
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
@@ -73,13 +79,17 @@ const User = ({ userId, picturePath }) => {
         },
       }
     );
-    const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    toggleUser = await response.json();
+    // const friendsArr = pathname.includes("/profile")
+    //   ? toggleUser.friend
+    //   : toggleUser.user;
+    // console.log("FRIENDARR", friendsArr);
+    dispatch(setFriends({ friends: toggleUser.friend }));
   };
 
   useEffect(() => {
     getUser();
-  }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [pathname, currentUser, toggleUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) {
     return null;
@@ -214,7 +224,12 @@ const User = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem" mb="0.5rem">
           <FlexBetween gap="1rem">
-            <img src="../assets/twitter.png" alt="twitter" />
+            <img
+              src="https://img.freepik.com/free-vector/twitter-new-2023-x-logo-white-background-vector_1017-45422.jpg?size=338&ext=jpg&ga=GA1.1.553209589.1711497600&semt=ais"
+              alt="twitter"
+              height="40px"
+              style={{ borderRadius: "50%" }}
+            />
             <Box>
               <Typography color={main} fontWeight="500">
                 Twitter
@@ -227,7 +242,12 @@ const User = ({ userId, picturePath }) => {
 
         <FlexBetween gap="1rem">
           <FlexBetween gap="1rem">
-            <img src="../assets/linkedin.png" alt="linkedin" />
+            <img
+              src="https://st3.depositphotos.com/8943496/36360/v/450/depositphotos_363604792-stock-illustration-initial-letter-business-name-gold.jpg"
+              alt="linkedin"
+              height="40px"
+              style={{ borderRadius: "50%" }}
+            />
             <Box>
               <Typography color={main} fontWeight="500">
                 Linkedin

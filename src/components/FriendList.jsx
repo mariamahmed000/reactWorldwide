@@ -47,13 +47,13 @@ const FriendList = ({ userId }) => {
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
         {userFriends.length > 0 ? (
-          userFriends.map((friend) => (
+          userFriends?.map((friend) => (
             <Friend
               key={friend._id}
               friendId={friend._id}
               name={`${friend.firstName} ${friend.lastName}`}
               subtitle={friend.occupation}
-              userPicturePath={friend.userImage}
+              userPicturePath={friend?.userImage}
             />
           ))
         ) : (
