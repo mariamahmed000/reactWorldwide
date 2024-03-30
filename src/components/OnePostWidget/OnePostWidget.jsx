@@ -26,7 +26,7 @@ import axios from "axios";
 import { setPost } from "../../redux/authSlice";
 import ComponentWrapper from "../utilities/ComponentWrapper";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OnePostWidget = ({
   postId,
@@ -44,9 +44,11 @@ const OnePostWidget = ({
   const token = useSelector((state) => state.auth.token);
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector((state) => state.auth.user._id);
+  // const loggedInUserImage = useSelector((state) => state.auth.user.userImage);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
-  const [commentsDetails, setCommentsDetails] = useState([]);
+  const [commentsDetails, setCommentsDetails] = useState([]); //comments array for each post
+  const [reverseCommentsArr, setReverseCommentsArr] = useState([]); //comments array for each post
   const [comment, setComment] = useState(""); //new comment inside the text Field
   const [addedComment, setaddedComment] = useState({});
 
@@ -59,7 +61,7 @@ const OnePostWidget = ({
 
   useEffect(() => {
     const fetchComments = async () => {
-      const commentsArr = await axios.get(
+      const reponse = await axios.get(
         `http://localhost:7005/post/${postId}/comment`,
         {
           headers: {
@@ -67,13 +69,14 @@ const OnePostWidget = ({
           },
         }
       );
-      // console.log("hi:123", commentsArr.data.userComments);
-      setCommentsDetails(commentsArr.data.userComments);
+      // console.log("hi:123", reponse.data.userComments);
+      setCommentsDetails(reponse.data.userComments);
       // console.log("comments", commentsDetails);
     };
     fetchComments();
-  }, [postId, addedComment]);
+  }, [postId, addedComment, token]);
 
+  //toggle the like button to adjust the post in the database
   const patchLike = async () => {
     // console.log(token);
     let updatedPost = await fetch(
@@ -93,6 +96,7 @@ const OnePostWidget = ({
     dispatch(setPost({ post: updatedPost.updatedPost }));
   };
 
+  //add comment to a post
   const addComment = async (addedComment) => {
     const response = await fetch(
       `http://localhost:7005/post/${postId}/comment`,
@@ -105,11 +109,22 @@ const OnePostWidget = ({
         body: JSON.stringify({ userComment: addedComment }),
       }
     );
-    console.log("1111", addedComment);
+    // console.log("1111", addedComment);
     setaddedComment({ userComment: comment });
-    console.log("Adding comment:", comment);
+    // console.log("Adding comment:", comment);
     // setComment("");
   };
+
+//function to revere the comments array
+  const reverseComments = (arr) => {
+    return arr.reverse();
+  };
+
+  //Re-render once a new post is added, as the global state (posts) renders and by default re-render the use Effect
+  useEffect(() => {
+    setReverseCommentsArr(reverseComments([...commentsDetails])); // Create a copy to avoid mutating state
+  }, [commentsDetails]);
+  // console.log(userHomePosts)
 
   return (
     <>
@@ -122,7 +137,7 @@ const OnePostWidget = ({
             gap: "1.25rem",
           }}
         >
-          {/* friend detail */}
+          {/* display user */}
           <FlexBetween>
             <FlexBetween gap="1rem">
               <UserImg image={userImage} size="55px" />
@@ -237,18 +252,50 @@ const OnePostWidget = ({
               </IconButton>
             </FlexBetween>
           </Box>
-          {commentsDetails?.length > 0 && isComments && (
+          {reverseCommentsArr?.length > 0 && isComments && (
             <Box mt="0.5rem">
-              {commentsDetails?.map((comment, i) => (
+              {reverseCommentsArr?.map((comment, i) => (
                 <Box key={`${name}-${i}`}>
                   <Divider />
-                  <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                    {comment?.firstName}
-                    <span> </span>
-                    {comment?.lastName}
-                    <br />
-                    {comment?.comment}
-                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                    }}
+                  >
+                    <UserImg image={comment?.userImage} size="35px" />
+                    <Box>
+                      <Typography
+                        sx={{
+                          color: "main",
+                          m: "0.6rem 0 0.3rem 0",
+                          pl: "0.4rem",
+                          fontWeight: "bold",
+                          fontSize: "0.75rem",
+                        }}
+                        onClick={() => {
+                          navigate(`/profile/${comment?.userId}`);
+                        }}
+                      >
+                        @{comment?.firstName}
+                        <span> </span>
+                        {comment?.lastName}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          color: "main",
+                          pl: "1.2rem",
+                          pb: ".6rem",
+                          fontSize: "0.9rem",
+                          fontWeight: "normal",
+                          lineHeight: "1",
+                        }}
+                      >
+                        {comment?.comment}
+                      </Typography>
+                    </Box>
+                  </Box>
                   <Divider />
                 </Box>
               ))}
