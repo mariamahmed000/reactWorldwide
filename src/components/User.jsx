@@ -35,15 +35,18 @@ const User = ({ userId, picturePath }) => {
   const { pathname } = useLocation();
 
   const getUser = async () => {
-    const response = await fetch(`http://localhost:7005/user/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `https://node-react-project-1.onrender.com/user/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await response.json();
     setUser(data);
     if (pathname.includes("/profile")) {
       const viewedProfileRes = await fetch(
-        `http://localhost:7005/user/${userId}`,
+        `https://node-react-project-1.onrender.com/user/${userId}`,
         {
           method: "PUT",
           headers: {
@@ -63,7 +66,7 @@ const User = ({ userId, picturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:7005/user/${currentUser._id}/${userId}`,
+      `https://node-react-project-1.onrender.com/user/${currentUser._id}/${userId}`,
       {
         method: "PUT",
         headers: {

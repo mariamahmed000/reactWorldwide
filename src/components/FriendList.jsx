@@ -21,7 +21,7 @@ const FriendList = ({ userId }) => {
 
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:7005/user/${userId}/friends`,
+      `https://node-react-project-1.onrender.com/user/${userId}/friends`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

@@ -49,11 +49,14 @@ const NewPost = ({ picturePath }) => {
       formData.append("postImage", image.name);
     }
 
-    const response = await fetch(`http://localhost:7005/post`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
+    const response = await fetch(
+      `https://node-react-project-1.onrender.com/post`,
+      {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      }
+    );
     const data = await response.json();
     dispatch(setPosts(data.data));
     setImage(null);

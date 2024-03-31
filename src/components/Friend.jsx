@@ -18,7 +18,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:7005/user/${_id}/${friendId}`,
+      `https://node-react-project-1.onrender.com/user/${_id}/${friendId}`,
       {
         method: "PUT",
         headers: {

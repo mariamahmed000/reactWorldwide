@@ -12,11 +12,14 @@ const PostsWidget = (userId) => {
 
   useEffect(() => {
     const getFriendsPosts = async () => {
-      const initialHomePosts = await axios.get("http://localhost:7005/post", {
-        headers: {
-          Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
-        },
-      });
+      const initialHomePosts = await axios.get(
+        "https://node-react-project-1.onrender.com/post",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
+          },
+        }
+      );
       dispatch(setPosts(initialHomePosts.data.data));
     };
 

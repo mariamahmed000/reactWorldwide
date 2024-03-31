@@ -58,7 +58,7 @@ const OnePostWidget = ({
   useEffect(() => {
     const fetchComments = async () => {
       const reponse = await axios.get(
-        `http://localhost:7005/post/${postId}/comment`,
+        `https://node-react-project-1.onrender.com/post/${postId}/comment`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Pass the token in the Authorization header
@@ -73,7 +73,7 @@ const OnePostWidget = ({
   //toggle the like button to adjust the post in the database
   const patchLike = async () => {
     let updatedPost = await fetch(
-      `http://localhost:7005/post/${postId}/like`,
+      `https://node-react-project-1.onrender.com/post/${postId}/like`,
 
       {
         method: "PUT",
@@ -89,7 +89,7 @@ const OnePostWidget = ({
   //add comment to a post
   const addComment = async (addedComment) => {
     const response = await fetch(
-      `http://localhost:7005/post/${postId}/comment`,
+      `https://node-react-project-1.onrender.com/post/${postId}/comment`,
       {
         method: "PUT",
         headers: {
@@ -177,7 +177,7 @@ const OnePostWidget = ({
               height="auto"
               alt="post"
               style={{ borderRadius: "0.75rem", height: "auto" }}
-              src={`http://localhost:7005/assets/${postImage}`}
+              src={`https://node-react-project-1.onrender.com/assets/${postImage}`}
             />
           )}
           <Box>

@@ -61,7 +61,7 @@ const Form = () => {
 
   // register function
   const register = async (values, onSubmitProps) => {
-    const savedUserResponse = await fetch("http://localhost:7005/register", {
+    const savedUserResponse = await fetch("https://node-react-project-1.onrender.com/register", {
       method: "POST",
       // body: formData,
       headers: { "Content-Type": "application/json" },
@@ -88,7 +88,7 @@ const Form = () => {
       location: "",
       isGoogle: true,
     };
-    const savedUserResponse = await fetch("http://localhost:7005/register", {
+    const savedUserResponse = await fetch("https://node-react-project-1.onrender.com/register", {
       method: "POST",
       // body: formData,
       headers: { "Content-Type": "application/json" },
@@ -107,7 +107,7 @@ const Form = () => {
 
   const login = async (values, onSubmitProps) => {
     try {
-      const loggedInResponse = await fetch("http://localhost:7005/login", {
+      const loggedInResponse = await fetch("https://node-react-project-1.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

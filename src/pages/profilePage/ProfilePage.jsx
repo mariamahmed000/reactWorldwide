@@ -20,18 +20,24 @@ const ProfilePage = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
   const getUser = async () => {
-    const response = await fetch(`http://localhost:7005/user/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `https://node-react-project-1.onrender.com/user/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     const data = await response.json();
     setUser(data);
   };
 
   const getUserPosts = async () => {
-    const response = await axios.get(`http://localhost:7005/post/${userId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await axios.get(
+      `https://node-react-project-1.onrender.com/post/${userId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     dispatch(setPosts(response.data.posts));
   };
 
