@@ -26,16 +26,13 @@ const ProfilePage = () => {
     });
     const data = await response.json();
     setUser(data);
-   
   };
 
   const getUserPosts = async () => {
     const response = await axios.get(`http://localhost:7005/post/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    console.log("PLEASEEEEEEEE",response)
     dispatch(setPosts(response.data.posts));
-    console.log("ABDALLAHHHHHHHH", profilePosts);
   };
 
   useEffect(() => {
@@ -60,7 +57,7 @@ const ProfilePage = () => {
           <Box sx={isNonMobileScreens && { width: "40rem" }}>
             <FriendList userId={userId} />
           </Box>
-          <Box>
+          <Box sx={isNonMobileScreens && { width: "50rem" }}>
             {userProfilePosts?.map(
               ({
                 _id,
