@@ -1,6 +1,6 @@
 import { Box, useMediaQuery } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 // import PostsWidget from "scenes/widgets/PostsWidget";
 import User from "../../components/User";
@@ -8,15 +8,17 @@ import FriendList from "../../components/FriendList";
 import axios from "axios";
 import OnePostWidget from "../../components/OnePostWidget/OnePostWidget";
 import AdvertWidget from "../../components/AdvertWidget";
+import { setPosts } from "../../redux/authSlice";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
   const { userId } = useParams();
   const token = useSelector((state) => state.auth.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const userProfilePosts = useSelector((state) => state.auth.posts);
   const [profilePosts, setProfilePosts] = useState([]);
   const { pathname } = useLocation();
-
+  const dispatch = useDispatch();
   const getUser = async () => {
     const response = await fetch(`http://localhost:7005/user/${userId}`, {
       method: "GET",
@@ -24,19 +26,21 @@ const ProfilePage = () => {
     });
     const data = await response.json();
     setUser(data);
-    getUserPosts();
+   
   };
 
   const getUserPosts = async () => {
     const response = await axios.get(`http://localhost:7005/post/${userId}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    setProfilePosts(response.data.posts);
+    console.log("PLEASEEEEEEEE",response)
+    dispatch(setPosts(response.data.posts));
+    console.log("ABDALLAHHHHHHHH", profilePosts);
   };
 
   useEffect(() => {
     getUser();
-    // getUserPosts();
+    getUserPosts();
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return null;
@@ -57,21 +61,42 @@ const ProfilePage = () => {
             <FriendList userId={userId} />
           </Box>
           <Box>
-            {profilePosts?.map(
-              ({ _id, userId, postImage, likes, comments, description }) => (
-                <OnePostWidget
-                  key={_id}
-                  postId={_id}
-                  postUserId={userId?._id}
-                  name={`${userId?.firstName} ${userId?.lastName}`}
-                  description={description}
-                  location={userId?.location}
-                  postImage={postImage}
-                  userImage={userId?.userImage}
-                  likes={likes}
-                  comments={comments}
-                />
-              )
+            {userProfilePosts?.map(
+              ({
+                _id,
+                userId,
+                postImage,
+                likes,
+                comments,
+                description,
+                createdAt,
+              }) => {
+                const date = new Date(createdAt);
+                const formattedDate = date.toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  second: "2-digit",
+                });
+
+                return (
+                  <OnePostWidget
+                    key={_id}
+                    postId={_id}
+                    postUserId={userId?._id}
+                    name={`${userId?.firstName} ${userId?.lastName}`}
+                    description={description}
+                    location={userId?.location}
+                    postImage={postImage}
+                    userImage={userId?.userImage}
+                    likes={likes}
+                    comments={comments}
+                    createdAt={formattedDate}
+                  />
+                );
+              }
             )}
           </Box>
           {isNonMobileScreens && (

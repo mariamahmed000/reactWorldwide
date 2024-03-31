@@ -43,6 +43,7 @@ const OnePostWidget = ({
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector((state) => state.auth.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
+  console.log(isLiked)
   const likeCount = Object.keys(likes).length;
   const [commentsDetails, setCommentsDetails] = useState([]); //comments array for each post
   const [reverseCommentsArr, setReverseCommentsArr] = useState([]); //comments array for each post
@@ -228,7 +229,7 @@ const OnePostWidget = ({
             <FlexBetween mt="0.5rem">
               <FlexBetween gap="1rem">
                 <FlexBetween>
-                  <IconButton onClick={patchLike}>
+                  <IconButton onClick={()=>patchLike()}>
                     {isLiked ? (
                       <FavoriteOutlined sx={{ color: primary }} />
                     ) : (

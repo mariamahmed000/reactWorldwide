@@ -5,50 +5,61 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { getAllUsers } from "../../redux/users";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function SearchResultList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
-  const [result, setResult] = useState([]);
+  const location = useLocation();
+  //const [search, setSearch] = useState("");
+  //nst [result, setResult] = useState([]);
   const usersArr = useSelector((state) => state.users.users.data);
 
-  useEffect(() => {
-    dispatch(getAllUsers());
-  }, [dispatch]);
+  console.log(usersArr.length,{ usersArr });
 
-  const getUser = (value) => {
-    const results = usersArr?.filter((user) => {
+  useEffect(() => {
+    console.log('dispatch change')
+    dispatch(getAllUsers());
+    //getUser();
+  }, [dispatch]);
+  /*
+  const getUser = () => {
+    console.log(usersArr)
+    const results = usersArr?.map((user) => {
       return (
-        value &&
-        user &&
-        user.firstName &&
-        user.firstName.toLowerCase().includes(value)
+       
+        user.firstName 
+        // user.firstName.toLowerCase().includes(value)
       );
     });
     setResult(results);
+    console.log("HIIIIIIIIIIIIIIII",results)
   };
 
   const handleChanges = (value) => {
     setSearch(value);
     getUser(value);
   };
+*/
 
   const handleSelect = (newValue) => {
     if (newValue) {
       navigate(`/profile/${newValue._id}`);
-      setSearch("");
     }
   };
-
   return (
     <Autocomplete
-      getOptionLabel={(result) => `${result?.firstName} ${result?.lastName}`}
+      key={location.pathname}
+      getOptionLabel={(result) => (
+          `${result?.firstName} ${result?.lastName}`
+      )}
+      // user
       onChange={(e, newValue) => handleSelect(newValue)}
-      inputValue={search}
-      onInputChange={(e, newValue) => handleChanges(newValue)}
-      options={result}
+      // value = {}
+      // text hamada
+      // inputValue={search}
+      // onInputChange={(e, newValue) => handleChanges(newValue)}
+      options={usersArr} // doesnt change
       sx={{
         width: 300,
         height: 32,
@@ -64,19 +75,21 @@ export default function SearchResultList(props) {
           paddingLeft: "10px",
         },
       }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Search"
-          sx={{
-            display: "flex",
-            justifyContent: "center", // Center the label horizontally
-            alignItems: "center",
-            height: 45,
-            padding: "0px",
-          }}
-        />
-      )}
+      renderInput={(params) => {
+        return (
+          <TextField
+            {...params}
+            label="Search"
+            sx={{
+              display: "flex",
+              justifyContent: "center", // Center the label horizontally
+              alignItems: "center",
+              height: 45,
+              padding: "0px",
+            }}
+          />
+        );
+      }}
     />
   );
 }

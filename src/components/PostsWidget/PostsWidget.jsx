@@ -30,6 +30,7 @@ const PostsWidget = (userId) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
     setData(sortedPosts);
+    console.log("MAZENNNNNNNNNNNN", data)
   }, [userHomePosts]);
 
   return (

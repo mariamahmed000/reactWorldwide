@@ -22,7 +22,6 @@ const userSlice= createSlice({
         builder.addCase(
           getAllUsers.fulfilled,(state,action)=>{
             state.users=action.payload;
-          
           }
         )
         builder.addCase(

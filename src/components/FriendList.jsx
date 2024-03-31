@@ -28,6 +28,7 @@ const FriendList = ({ userId }) => {
       }
     );
     const data = await response.json();
+    console.log(userId);
 
     dispatch(setFriends({ friends: data.data }));
   };
@@ -47,7 +48,7 @@ const FriendList = ({ userId }) => {
         Friend List
       </Typography>
       <Box display="flex" flexDirection="column" gap="1.5rem">
-        {userFriends.length > 0 ? (
+        {userFriends?.length > 0 ? (
           userFriends?.map((friend) => (
             <Friend
               key={friend._id}
