@@ -43,7 +43,6 @@ const OnePostWidget = ({
   const [isComments, setIsComments] = useState(false);
   const loggedInUserId = useSelector((state) => state.auth.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
-  console.log(isLiked)
   const likeCount = Object.keys(likes).length;
   const [commentsDetails, setCommentsDetails] = useState([]); //comments array for each post
   const [reverseCommentsArr, setReverseCommentsArr] = useState([]); //comments array for each post
@@ -129,12 +128,10 @@ const OnePostWidget = ({
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              minWidth: "100%"
+              minWidth: "100%",
             }}
           >
-            <FlexBetween
-              gap="1rem"
-            >
+            <FlexBetween gap="1rem">
               <UserImg image={userImage} size="55px" />
               <Box>
                 <Typography
@@ -158,7 +155,15 @@ const OnePostWidget = ({
                 </Typography>
               </Box>
             </FlexBetween>
-            <Typography color={medium} fontSize="0.75rem" sx={{alignSelf: "start", paddingTop:"0.75rem", justifySelf:"end"}}>
+            <Typography
+              color={medium}
+              fontSize="0.75rem"
+              sx={{
+                alignSelf: "start",
+                paddingTop: "0.75rem",
+                justifySelf: "end",
+              }}
+            >
               {createdAt}
             </Typography>
           </FlexBetween>
@@ -170,7 +175,7 @@ const OnePostWidget = ({
               width="100%"
               height="auto"
               alt="post"
-              style={{ borderRadius: "0.75rem" }}
+              style={{ borderRadius: "0.75rem", height: "auto" }}
               src={`http://localhost:7005/assets/${postImage}`}
             />
           )}
@@ -229,7 +234,7 @@ const OnePostWidget = ({
             <FlexBetween mt="0.5rem">
               <FlexBetween gap="1rem">
                 <FlexBetween>
-                  <IconButton onClick={()=>patchLike()}>
+                  <IconButton onClick={() => patchLike()}>
                     {isLiked ? (
                       <FavoriteOutlined sx={{ color: primary }} />
                     ) : (

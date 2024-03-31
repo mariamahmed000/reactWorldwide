@@ -11,36 +11,12 @@ export default function SearchResultList(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  //const [search, setSearch] = useState("");
-  //nst [result, setResult] = useState([]);
+
   const usersArr = useSelector((state) => state.users.users.data);
 
-  console.log(usersArr.length,{ usersArr });
-
   useEffect(() => {
-    console.log('dispatch change')
     dispatch(getAllUsers());
-    //getUser();
   }, [dispatch]);
-  /*
-  const getUser = () => {
-    console.log(usersArr)
-    const results = usersArr?.map((user) => {
-      return (
-       
-        user.firstName 
-        // user.firstName.toLowerCase().includes(value)
-      );
-    });
-    setResult(results);
-    console.log("HIIIIIIIIIIIIIIII",results)
-  };
-
-  const handleChanges = (value) => {
-    setSearch(value);
-    getUser(value);
-  };
-*/
 
   const handleSelect = (newValue) => {
     if (newValue) {
@@ -50,15 +26,8 @@ export default function SearchResultList(props) {
   return (
     <Autocomplete
       key={location.pathname}
-      getOptionLabel={(result) => (
-          `${result?.firstName} ${result?.lastName}`
-      )}
-      // user
+      getOptionLabel={(result) => `${result?.firstName} ${result?.lastName}`}
       onChange={(e, newValue) => handleSelect(newValue)}
-      // value = {}
-      // text hamada
-      // inputValue={search}
-      // onInputChange={(e, newValue) => handleChanges(newValue)}
       options={usersArr} // doesnt change
       sx={{
         width: 300,

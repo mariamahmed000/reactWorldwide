@@ -18,7 +18,6 @@ const PostsWidget = (userId) => {
         },
       });
       dispatch(setPosts(initialHomePosts.data.data));
-      console.log("postsALLLLLLL", userHomePosts);
     };
 
     getFriendsPosts();
@@ -30,7 +29,6 @@ const PostsWidget = (userId) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
     setData(sortedPosts);
-    console.log("MAZENNNNNNNNNNNN", data)
   }, [userHomePosts]);
 
   return (

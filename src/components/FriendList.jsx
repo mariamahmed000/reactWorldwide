@@ -28,7 +28,6 @@ const FriendList = ({ userId }) => {
       }
     );
     const data = await response.json();
-    console.log(userId);
 
     dispatch(setFriends({ friends: data.data }));
   };
