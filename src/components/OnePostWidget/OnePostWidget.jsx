@@ -24,6 +24,7 @@ import { setPost } from "../../redux/authSlice";
 import ComponentWrapper from "../utilities/ComponentWrapper";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { format } from "timeago.js";
 
 const OnePostWidget = ({
   postId,
@@ -164,7 +165,7 @@ const OnePostWidget = ({
                 justifySelf: "end",
               }}
             >
-              {createdAt}
+              {format(createdAt)}
             </Typography>
           </FlexBetween>
           {/* post part */}
